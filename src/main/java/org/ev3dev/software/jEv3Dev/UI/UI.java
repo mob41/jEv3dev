@@ -54,11 +54,18 @@ public class UI extends JFrame {
 		JScrollPane blocksScroll = new JScrollPane();
 		split2.setLeftComponent(blocksScroll);
 		
+		JPanel canvasHoldingPanel = new JPanel();
+		blocksScroll.setViewportView(canvasHoldingPanel);
+		canvasHoldingPanel.setLayout(new BorderLayout(0, 0));
+		
+		BlocksVas blocksVas = new BlocksVas();
+		canvasHoldingPanel.add(blocksVas);
+
 		JScrollPane actionsScroll = new JScrollPane();
 		actionsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		split2.setRightComponent(actionsScroll);
 		
-		ActionsPane actionsPane = new ActionsPane(this);
+		BlocksPane actionsPane = new BlocksPane(this);
 		actionsScroll.setViewportView(actionsPane);
 		GroupLayout gl_mainDesk = new GroupLayout(mainDesk);
 		gl_mainDesk.setHorizontalGroup(
@@ -69,6 +76,7 @@ public class UI extends JFrame {
 			gl_mainDesk.createParallelGroup(Alignment.LEADING)
 				.addComponent(split1, GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
 		);
+		
 		mainDesk.setLayout(gl_mainDesk);
 	}
 }

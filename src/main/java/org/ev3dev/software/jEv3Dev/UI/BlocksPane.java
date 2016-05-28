@@ -12,7 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class ActionsPane extends JPanel {
+public class BlocksPane extends JPanel {
 
 	private boolean dragging = false;
 	private UI ui;
@@ -20,7 +20,7 @@ public class ActionsPane extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ActionsPane(UI frame) {
+	public BlocksPane(UI frame) {
 		this.ui = frame;
 		
 		JLabel lblTestItem = new JLabel("Test Item");
