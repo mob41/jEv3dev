@@ -41,9 +41,12 @@ public class BlocksVas extends JPanel {
 		setSize(default_width, default_height);
 		setLayout(null);
 		
+		currWidth = default_width;
+		currHeight = default_height * 3;
+		
 		BlocksLoader loader = BlocksLoader.getBlocksLoader();
 		
-		Rail rail = new Rail(80, default_height / 2);
+		Rail rail = new Rail(80, currHeight / 2);
 		loader.blocks.add(rail);
 		
 		Point point;
@@ -53,21 +56,20 @@ public class BlocksVas extends JPanel {
 			
 			loader.blocks.add(rail);
 		}
-		
-		currWidth = default_width;
-		currHeight = default_height;
 	}
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		
 		BlocksLoader loader = BlocksLoader.getBlocksLoader();
-		System.out.println(loader.getNextBlockPos());
-		System.out.println(currWidth + " / " + currHeight);
 		
 		if (loader.getNextBlockPos().x >= currWidth){
-			System.out.println("BIG!!! Resizing");
 			currWidth += default_width;
+			uiframe.getBlocksScroll().updateUI();
+		}
+		
+		if (loader.getNextBlockPos().y >= currHeight){
+			currHeight += default_height;
 			uiframe.getBlocksScroll().updateUI();
 		}
 		

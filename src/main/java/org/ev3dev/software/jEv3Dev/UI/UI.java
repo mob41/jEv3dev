@@ -2,9 +2,12 @@ package org.ev3dev.software.jEv3Dev.UI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JSplitPane;
 import javax.swing.JToolTip;
@@ -13,6 +16,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JDesktopPane;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JInternalFrame;
 import javax.swing.ImageIcon;
 import javax.swing.GroupLayout;
@@ -99,6 +104,17 @@ public class UI extends JFrame {
 				
 				blocksVas = new BlocksVas(this);
 				blocksScroll.setViewportView(blocksVas);
+				EventQueue.invokeLater(new Runnable(){
+					public void run(){
+						Rectangle bounds = blocksScroll.getViewport().getViewRect();
+						Dimension size = blocksScroll.getViewport().getViewSize();
+						
+						int x = (size.width - bounds.width) / 2;
+						int y = (size.height - bounds.height) / 2;
+						
+						blocksScroll.getViewport().setViewPosition(new Point(x, y));
+					}
+				});
 				
 				blocksVas.addMouseListener(new MouseAdapter() {
 					@Override
@@ -109,9 +125,7 @@ public class UI extends JFrame {
 					public void mousePressed(MouseEvent e) {
 						Block block = BlocksLoader.getBlocksLoader().onMousePressCheckAll(blocksVas.getMousePosition());
 						
-						System.out.println("PRESSED. " + block);
 						if (block != null && e.getButton() == MouseEvent.BUTTON3){
-							System.out.println("Found block: " + block.getName());
 							BlockInfo info = new BlockInfo(block);
 							mainDesk.add(info);
 							info.setVisible(true);
@@ -127,7 +141,6 @@ public class UI extends JFrame {
 					public void mouseMoved(MouseEvent arg0) {
 						Block block = BlocksLoader.getBlocksLoader().onMouseTouchCheckAll(blocksVas.getMousePosition());
 						
-						System.out.println("checking");
 						
 						if (block == null || (block != null && oldBlock != null && !block.equals(oldBlock))){
 							oldBlock = null;
@@ -138,7 +151,6 @@ public class UI extends JFrame {
 							blocksVas.repaint();
 						} else {
 							oldBlock = block;
-							System.out.println("Is not old and not null");
 							blocksVas.getGraphics().drawRect(block.getLeftX(), block.getUpY(), block.getWidth(), block.getHeight());
 							
 							if (label == null){
