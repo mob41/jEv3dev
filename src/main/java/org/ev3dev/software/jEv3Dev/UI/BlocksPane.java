@@ -6,11 +6,15 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.ImageIcon;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class BlocksPane extends JPanel {
 
@@ -23,36 +27,52 @@ public class BlocksPane extends JPanel {
 	public BlocksPane(UI frame) {
 		this.ui = frame;
 		
-		JLabel lblTestItem = new JLabel("Test Item");
-		lblTestItem.addMouseMotionListener(new MouseMotionAdapter() {
+		JLabel lblTestItem = new JLabel();
+		lblTestItem.setToolTipText("A block");
+		lblTestItem.setIcon(new ImageIcon(BlocksPane.class.getResource("/org/ev3dev/software/jEv3Dev/UI/resources/block.fw.png")));
+		lblTestItem.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseDragged(MouseEvent arg0) {
-				if (!dragging){
-					dragging = true;
-					
-					System.out.println("Dragging!");
-					final MovingFrame movingFrame = new MovingFrame();
-					ui.mainDesk.add(movingFrame);
-					movingFrame.setLocation(ui.mainDesk.getMousePosition());
-					movingFrame.setVisible(true);
-					
-				}
+			public void mousePressed(MouseEvent arg0) {
+				Point nextPos = BlocksLoader.getBlocksLoader().getNextBlockPos();
+				TestBlock testBlock = new TestBlock(nextPos.x, nextPos.y, Color.GREEN);
+				BlocksLoader.getBlocksLoader().blocks.add(testBlock);
+				
+				ui.getBlocksCanvas().repaint();
 			}
 		});
+		
+		JLabel lblTestItemRED = new JLabel();
+		lblTestItemRED.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				Point nextPos = BlocksLoader.getBlocksLoader().getNextBlockPos();
+				TestBlock testBlock = new TestBlock(nextPos.x, nextPos.y, Color.RED);
+				BlocksLoader.getBlocksLoader().blocks.add(testBlock);
+				
+				ui.getBlocksCanvas().repaint();
+				
+			}
+		});
+		lblTestItemRED.setIcon(new ImageIcon(BlocksPane.class.getResource("/org/ev3dev/software/jEv3Dev/UI/resources/block.fw.png")));
+		lblTestItemRED.setToolTipText("A RED block");
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblTestItem)
-					.addContainerGap(971, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblTestItemRED, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(911, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblTestItem)
-					.addContainerGap(73, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblTestItemRED, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblTestItem))
+					.addContainerGap(38, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 		

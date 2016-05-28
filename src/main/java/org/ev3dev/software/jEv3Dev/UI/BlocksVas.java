@@ -1,14 +1,18 @@
 package org.ev3dev.software.jEv3Dev.UI;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import org.ev3dev.software.jEv3Dev.UI.blocks.Rail;
 
 public class BlocksVas extends JPanel {
 	
@@ -20,31 +24,60 @@ public class BlocksVas extends JPanel {
 	
 	private static final int RIGHT = 1;
 	
+	private int currWidth;
+	
+	private int currHeight;
+	
+	private UI uiframe;
+	
 	private BufferedImage railImage;
 
 	/**
 	 * Create the panel.
 	 */
-	public BlocksVas() {
+	public BlocksVas(UI uiframe) {
+		this.uiframe = uiframe;
 		setBackground(Color.WHITE);
 		setSize(default_width, default_height);
 		
-		InputStream in = BlocksVas.class.getClassLoader().getResourceAsStream("rail.fw.png");
-		try {
-			railImage = ImageIO.read(in);
-		} catch (IOException e) {
-			railImage = null;
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		BlocksLoader loader = BlocksLoader.getBlocksLoader();
+		
+		Rail rail = new Rail(80, 80);
+		loader.blocks.add(rail);
+		
+		Point point;
+		for (int i = 0; i < 1; i++){
+			point = loader.getNextBlockPos();
+			rail = new Rail(point.x, point.y + Rail.DEFAULT_HEIGHT, false, true);
+			
+			loader.blocks.add(rail);
 		}
+		
+		currWidth = default_width;
+		currHeight = default_height;
 	}
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		
-		for (Block block : BlocksLoader.getBlocksLoader().blocks){
+		BlocksLoader loader = BlocksLoader.getBlocksLoader();
+		System.out.println(loader.getNextBlockPos());
+		System.out.println(currWidth + " / " + currHeight);
+		
+		if (loader.getNextBlockPos().x >= currWidth){
+			System.out.println("BIG!!! Resizing");
+			currWidth += default_width;
+			uiframe.getBlocksScroll().updateUI();
+		}
+		
+		for (Block block : loader.blocks){
 			block.drawThis(g);
 		}
+	}
+	
+	@Override
+	public Dimension getPreferredSize(){
+		return new Dimension(currWidth, currHeight);
 	}
 	
 	public void drawSemiCircle(Graphics g, int x, int y, int width, int height, int direction, Color color){

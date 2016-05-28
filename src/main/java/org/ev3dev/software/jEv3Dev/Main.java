@@ -10,10 +10,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		BlocksLoader.init(500);
-		TestBlock testBlock = new TestBlock(150, 150, 50, 50);
-		BlocksLoader.getBlocksLoader().blocks.add(testBlock);
 		
-
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
 				UI window = new UI();

@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ev3dev.software.jEv3Dev.UI.blocks.Rail;
+
 public class BlocksLoader {
 
 	private static BlocksLoader blocksLoader;
@@ -28,6 +30,27 @@ public class BlocksLoader {
 		for (Block block : blocks){
 			block.drawThis(g);
 		}
+	}
+	
+	public Point getNextBlockUpRightPos(){
+		return blocks.get(blocks.size() - 1).getUpRightPos();
+	}
+	
+	public Point getNextBlockPos(){
+		return getNextBlockPos(Block.DEFAULT_HEIGHT);
+	}
+	
+	public Point getNextBlockPos(int height){
+		Block block = blocks.get(blocks.size() - 1);
+		int x = block.getRightX();
+		int y = block.getUpY();
+		int cy = (int) ((double) (block.getUpY() + block.getDownY()) / (double) 2);
+		
+		return new Point(x, cy - (height / 2));
+	}
+	
+	public void addBlock(Block block){
+		blocks.add(block);
 	}
 	
 	public void onMouseClickCheckAll(Point pos){

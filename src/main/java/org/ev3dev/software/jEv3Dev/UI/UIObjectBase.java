@@ -1,5 +1,7 @@
 package org.ev3dev.software.jEv3Dev.UI;
 
+import java.awt.Point;
+
 public abstract class UIObjectBase implements UIObject{
 	
 	private final int xleft;
@@ -25,6 +27,22 @@ public abstract class UIObjectBase implements UIObject{
 		this.height = height;
 	}
 	
+	public Point getUpLeftPos(){
+		return new Point(xleft, yup);
+	}
+	
+	public Point getUpRightPos(){
+		return new Point(xright, yup);
+	}
+	
+	public Point getDownLeftPos(){
+		return new Point(xleft, ydown);
+	}
+	
+	public Point getDownRightPos(){
+		return new Point(xright, ydown);
+	}
+	
 	public int getLeftX(){
 		return xleft;
 	}
@@ -39,6 +57,14 @@ public abstract class UIObjectBase implements UIObject{
 	
 	public int getDownY(){
 		return ydown;
+	}
+	
+	public int getWidth(){
+		return width;
+	}
+	
+	public int getHeight(){
+		return height;
 	}
 	
 }

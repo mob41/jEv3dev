@@ -5,31 +5,34 @@ import java.awt.Graphics;
 
 public class TestBlock extends Block {
 
-	public TestBlock(int x, int y, int width, int height) {
-		super(x, y, width, height);
-		System.out.println("Created!");
+	private Color color;
+	
+	public TestBlock(int x, int y, Color color) {
+		super(x, y);
+		this.color = color;
+		System.out.println("Created! " + this.hashCode());
 		// TODO Auto-generated constructor stub
 	}
 
 	public void drawThis(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(150, 150, 50, 50);
+		super.drawThis(g, color);
 	}
 
 	public boolean onMouseTouch() {
-		System.out.println("Touched!");
+		super.onMouseTouch();
+		System.out.println("Touched!" + this.hashCode());
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean onMouseClick() {
-		System.out.println("Clicked!");
+		System.out.println("Clicked!" + this.hashCode());
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean onMousePress() {
-		System.out.println("Pressed!");
+		System.out.println("Pressed!" + this.hashCode());
 		// TODO Auto-generated method stub
 		return false;
 	}

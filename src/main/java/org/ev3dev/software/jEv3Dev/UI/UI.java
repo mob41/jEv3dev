@@ -27,6 +27,8 @@ public class UI extends JFrame {
 
 	private JPanel contentPane;
 	protected JDesktopPane mainDesk;
+	private BlocksVas blocksVas;
+	private JScrollPane blocksScroll;
 
 	/**
 	 * Create the frame.
@@ -56,15 +58,11 @@ public class UI extends JFrame {
 		split2.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		split1.setLeftComponent(split2);
 		
-		JScrollPane blocksScroll = new JScrollPane();
+		blocksScroll = new JScrollPane();
 		split2.setLeftComponent(blocksScroll);
 		
-		JPanel canvasHoldingPanel = new JPanel();
-		blocksScroll.setViewportView(canvasHoldingPanel);
-		canvasHoldingPanel.setLayout(new BorderLayout(0, 0));
-		
-		final BlocksVas blocksVas = new BlocksVas();
-		canvasHoldingPanel.add(blocksVas);
+		blocksVas = new BlocksVas(this);
+		blocksScroll.setViewportView(blocksVas);
 		
 		blocksVas.addMouseListener(new MouseAdapter() {
 			@Override
@@ -100,14 +98,13 @@ public class UI extends JFrame {
 		);
 		
 		mainDesk.setLayout(gl_mainDesk);
-		
-		EventQueue.invokeLater(new Runnable(){
-			public void run(){
-				System.out.println("Draw All");
-				BlocksLoader.getBlocksLoader().drawAll(blocksVas.getGraphics());
-				System.out.println("Repainting");
-				blocksVas.repaint();
-			}
-		});
+	}
+	
+	public BlocksVas getBlocksCanvas(){
+		return blocksVas;
+	}
+	
+	public JScrollPane getBlocksScroll(){
+		return blocksScroll;
 	}
 }
