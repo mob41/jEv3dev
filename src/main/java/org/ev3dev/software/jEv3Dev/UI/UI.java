@@ -69,23 +69,17 @@ public class UI extends JFrame {
 		blocksVas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("Checking click... " + Calendar.getInstance().getTime().toString());
 				BlocksLoader.getBlocksLoader().onMouseClickCheckAll(contentPane.getMousePosition());
-				System.out.println("!! Checked click!!" + Calendar.getInstance().getTime().toString());
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println("Checking press... " + Calendar.getInstance().getTime().toString());
 				BlocksLoader.getBlocksLoader().onMousePressCheckAll(contentPane.getMousePosition());
-				System.out.println("!! Checked press !!" + Calendar.getInstance().getTime().toString());
 			}
 		});
 		blocksVas.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
-				System.out.println("Checking touch... " + Calendar.getInstance().getTime().toString());
 				BlocksLoader.getBlocksLoader().onMouseTouchCheckAll(contentPane.getMousePosition());
-				System.out.println("!!!Checked touch!!!" + Calendar.getInstance().getTime().toString());
 			}
 		});
 
