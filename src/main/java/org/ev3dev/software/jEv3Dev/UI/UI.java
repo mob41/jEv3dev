@@ -18,6 +18,10 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Canvas;
+import java.awt.event.MouseMotionAdapter;
+import java.util.Calendar;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 public class UI extends JFrame {
 
@@ -35,6 +39,7 @@ public class UI extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		contentPane = new JPanel();
+		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
@@ -58,8 +63,31 @@ public class UI extends JFrame {
 		blocksScroll.setViewportView(canvasHoldingPanel);
 		canvasHoldingPanel.setLayout(new BorderLayout(0, 0));
 		
-		BlocksVas blocksVas = new BlocksVas();
+		final BlocksVas blocksVas = new BlocksVas();
 		canvasHoldingPanel.add(blocksVas);
+		
+		blocksVas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println("Checking click... " + Calendar.getInstance().getTime().toString());
+				BlocksLoader.getBlocksLoader().onMouseClickCheckAll(contentPane.getMousePosition());
+				System.out.println("!! Checked click!!" + Calendar.getInstance().getTime().toString());
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println("Checking press... " + Calendar.getInstance().getTime().toString());
+				BlocksLoader.getBlocksLoader().onMousePressCheckAll(contentPane.getMousePosition());
+				System.out.println("!! Checked press !!" + Calendar.getInstance().getTime().toString());
+			}
+		});
+		blocksVas.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				System.out.println("Checking touch... " + Calendar.getInstance().getTime().toString());
+				BlocksLoader.getBlocksLoader().onMouseTouchCheckAll(contentPane.getMousePosition());
+				System.out.println("!!!Checked touch!!!" + Calendar.getInstance().getTime().toString());
+			}
+		});
 
 		JScrollPane actionsScroll = new JScrollPane();
 		actionsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -78,5 +106,14 @@ public class UI extends JFrame {
 		);
 		
 		mainDesk.setLayout(gl_mainDesk);
+		
+		EventQueue.invokeLater(new Runnable(){
+			public void run(){
+				System.out.println("Draw All");
+				BlocksLoader.getBlocksLoader().drawAll(blocksVas.getGraphics());
+				System.out.println("Repainting");
+				blocksVas.repaint();
+			}
+		});
 	}
 }

@@ -1,12 +1,23 @@
 package org.ev3dev.software.jEv3Dev.actions;
 
-public interface Action {
+import org.ev3dev.software.jEv3Dev.ActionInterface;
 
-	public boolean runAction();
+public abstract class Action implements ActionInterface {
+
+	public String getName() {
+		return "Untitled Action";
+	}
+
+	public String getDescription() {
+		return "An untitled action";
+	}
+
+	public boolean run() {
+		return false;
+	}
 	
-	public void setParameter(int parameter, Object value);
-	
-	public Object getParameter(int parameter);
-	
-	public boolean endAction();
+	public boolean canRun(){
+		return false;
+	}
+
 }

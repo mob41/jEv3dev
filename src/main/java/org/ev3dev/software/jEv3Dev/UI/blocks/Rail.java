@@ -24,4 +24,22 @@ public class Rail extends UIObjectBase{
 		g.setColor(Color.WHITE);
 		g.fillOval(ox, oy, 22, 22);
 	}
+
+	public boolean onMouseTouch() {
+		System.out.println("Mouse touched rail");
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean onMouseClick() {
+		System.out.println("Mouse clicked rail");
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean onMousePress() {
+		System.out.println("Mouse pressed rail");
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

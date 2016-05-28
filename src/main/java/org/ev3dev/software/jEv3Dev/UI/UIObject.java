@@ -6,4 +6,9 @@ public interface UIObject {
 
 	public void drawThis(Graphics g);
 	
+	public boolean onMouseTouch();
+	
+	public boolean onMouseClick();
+	
+	public boolean onMousePress();
 }

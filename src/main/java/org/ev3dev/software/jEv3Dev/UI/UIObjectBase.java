@@ -40,4 +40,5 @@ public abstract class UIObjectBase implements UIObject{
 	public int getDownY(){
 		return ydown;
 	}
+	
 }

@@ -2,11 +2,17 @@ package org.ev3dev.software.jEv3Dev;
 
 import java.awt.EventQueue;
 
+import org.ev3dev.software.jEv3Dev.UI.BlocksLoader;
+import org.ev3dev.software.jEv3Dev.UI.TestBlock;
 import org.ev3dev.software.jEv3Dev.UI.UI;
 
 public class Main {
 
 	public static void main(String[] args) {
+		BlocksLoader.init(500);
+		TestBlock testBlock = new TestBlock(150, 150, 50, 50);
+		BlocksLoader.getBlocksLoader().blocks.add(testBlock);
+		
 
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
