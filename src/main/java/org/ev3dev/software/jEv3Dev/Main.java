@@ -3,8 +3,8 @@ package org.ev3dev.software.jEv3Dev;
 import java.awt.EventQueue;
 
 import org.ev3dev.software.jEv3Dev.UI.BlocksLoader;
-import org.ev3dev.software.jEv3Dev.UI.TestBlock;
 import org.ev3dev.software.jEv3Dev.UI.UI;
+import org.ev3dev.software.jEv3Dev.UI.blocks.TestBlock;
 
 public class Main {
 

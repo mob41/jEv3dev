@@ -1,7 +1,9 @@
-package org.ev3dev.software.jEv3Dev.UI;
+package org.ev3dev.software.jEv3Dev.UI.blocks;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import org.ev3dev.software.jEv3Dev.UI.Block;
 
 public class TestBlock extends Block {
 

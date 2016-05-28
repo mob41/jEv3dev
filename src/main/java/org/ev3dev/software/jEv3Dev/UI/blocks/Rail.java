@@ -34,6 +34,27 @@ public class Rail extends Block{
 		hasEnd = true;
 	}
 	
+	@Override
+	public String getName(){
+		return "Blocks rail";
+	}
+	
+	@Override
+	public String getDescription(){
+		return "An rail act like a wire connects all the functions together.";
+	}
+	
+	@Override
+	public String getVersion(){
+		return "---";
+	}
+	
+	@Override
+	public String getAuthor(){
+		return "jEv3dev";
+	}
+	
+	@Override
 	public void drawThis(Graphics g){
 		int x = getLeftX();
 		int y = getUpY();
@@ -57,6 +78,11 @@ public class Rail extends Block{
 		if (hasEnd){
 			drawEnd(g);
 		}
+	}
+	
+	@Override
+	public String getShortName(){
+		return "blocksRail";
 	}
 
 	public boolean onMouseTouch() {

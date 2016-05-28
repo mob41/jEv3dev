@@ -69,12 +69,26 @@ public class UI extends JFrame {
 		
 		blocksVas.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				BlocksLoader.getBlocksLoader().onMouseClickCheckAll(contentPane.getMousePosition());
+			public void mouseClicked(MouseEvent e) {
+				Block block = BlocksLoader.getBlocksLoader().onMouseClickCheckAll(contentPane.getMousePosition());
+			
+				if (block != null && e.getButton() == MouseEvent.BUTTON3){
+					BlockInfo info = new BlockInfo(block);
+					info.setVisible(true);
+					getBlocksCanvas().add(info);
+					return;
+				}
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				BlocksLoader.getBlocksLoader().onMousePressCheckAll(contentPane.getMousePosition());
+				Block block = BlocksLoader.getBlocksLoader().onMousePressCheckAll(contentPane.getMousePosition());
+				
+				if (block != null && e.getButton() == MouseEvent.BUTTON3){
+					BlockInfo info = new BlockInfo(block);
+					info.setVisible(true);
+					getBlocksCanvas().add(info);
+					return;
+				}
 			}
 		});
 		blocksVas.addMouseMotionListener(new MouseMotionAdapter() {
@@ -87,29 +101,28 @@ public class UI extends JFrame {
 				
 				System.out.println("checking");
 				
-				if (block != null){
+				if (block == null || (block != null && oldBlock != null && !block.equals(oldBlock))){
+					oldBlock = null;
+					if (label != null){
+						blocksVas.remove(label);
+						label = null;
+					}
+					blocksVas.repaint();
+				} else {
 					oldBlock = block;
 					System.out.println("Is not old and not null");
 					blocksVas.getGraphics().drawRect(block.getLeftX(), block.getUpY(), block.getWidth(), block.getHeight());
 					
 					if (label == null){
-						label = new JLabel(block.getName());
+						label = new JLabel();
 						blocksVas.add(label);
 					}
 					
+					label.setText(block.getName());
 					label.setBounds(blocksVas.getMousePosition().x, blocksVas.getMousePosition().y, blocksVas.getGraphics().getFontMetrics().stringWidth(label.getText()) + 10, 15);
 					
 					label.setHorizontalAlignment(JLabel.CENTER);
 					label.setVisible(true);
-				}
-				
-				if (block == null || !block.equals(oldBlock)){
-					if (label != null){
-						blocksVas.remove(label);
-						label = null;
-						
-						blocksVas.repaint();
-					}
 				}
 			}
 		});

@@ -50,25 +50,35 @@ public class BlocksLoader {
 	}
 	
 	public void addBlock(Block block){
+		
 		blocks.add(block);
+		
+		Point point = getNextBlockPos(Rail.DEFAULT_HEIGHT);
+		Rail rail = new Rail(point.x, point.y, false, true);
+		
+		blocks.add(rail);
 	}
 	
-	public void onMouseClickCheckAll(Point pos){
+	public Block onMouseClickCheckAll(Point pos){
 		for (Block block : blocks){
 			if (isPointInArea(pos, block.getLeftX(), block.getRightX(),
 					block.getUpY(), block.getDownY())){
 				block.onMouseClick();
+				return block;
 			}
 		}
+		return null;
 	}
 	
-	public void onMousePressCheckAll(Point pos){
+	public Block onMousePressCheckAll(Point pos){
 		for (Block block : blocks){
 			if (isPointInArea(pos, block.getLeftX(), block.getRightX(),
 					block.getUpY(), block.getDownY())){
 				block.onMousePress();
+				return block;
 			}
 		}
+		return null;
 	}
 	
 	public Block onMouseTouchCheckAll(Point pos){

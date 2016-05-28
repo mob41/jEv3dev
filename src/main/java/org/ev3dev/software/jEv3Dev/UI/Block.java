@@ -39,6 +39,14 @@ public abstract class Block  extends UIObjectBase{
 //Basic information
 	
 	/**
+	 * Returns the short-name of this block, with no spaces.
+	 * @return Short name no-spaces
+	 */
+	public String getShortName(){
+		return "UBK" + this.hashCode();
+	}
+	
+	/**
 	 * Returns the name
 	 * @return The name of this block
 	 */

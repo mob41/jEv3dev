@@ -16,6 +16,8 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import org.ev3dev.software.jEv3Dev.UI.blocks.TestBlock;
+
 public class BlocksPane extends JPanel {
 
 	private boolean dragging = false;
@@ -24,7 +26,7 @@ public class BlocksPane extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public BlocksPane(UI frame) {
+	public BlocksPane(final UI frame) {
 		this.ui = frame;
 		
 		JLabel lblTestItem = new JLabel();
@@ -35,7 +37,15 @@ public class BlocksPane extends JPanel {
 			public void mousePressed(MouseEvent arg0) {
 				Point nextPos = BlocksLoader.getBlocksLoader().getNextBlockPos();
 				TestBlock testBlock = new TestBlock(nextPos.x, nextPos.y, Color.GREEN);
-				BlocksLoader.getBlocksLoader().blocks.add(testBlock);
+				
+				if (arg0.getButton() == MouseEvent.BUTTON3){
+					BlockInfo info = new BlockInfo(testBlock);
+					info.setVisible(true);
+					frame.getBlocksCanvas().add(info);
+					return;
+				}
+				
+				BlocksLoader.getBlocksLoader().addBlock(testBlock);
 				
 				ui.getBlocksCanvas().repaint();
 			}
@@ -47,7 +57,15 @@ public class BlocksPane extends JPanel {
 			public void mousePressed(MouseEvent arg0) {
 				Point nextPos = BlocksLoader.getBlocksLoader().getNextBlockPos();
 				TestBlock testBlock = new TestBlock(nextPos.x, nextPos.y, Color.RED);
-				BlocksLoader.getBlocksLoader().blocks.add(testBlock);
+				
+				if (arg0.getButton() == MouseEvent.BUTTON3){
+					BlockInfo info = new BlockInfo(testBlock);
+					info.setVisible(true);
+					frame.getBlocksCanvas().add(info);
+					return;
+				}
+				
+				BlocksLoader.getBlocksLoader().addBlock(testBlock);
 				
 				ui.getBlocksCanvas().repaint();
 				
