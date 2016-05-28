@@ -113,8 +113,8 @@ public class UI extends JFrame {
 						if (block != null && e.getButton() == MouseEvent.BUTTON3){
 							System.out.println("Found block: " + block.getName());
 							BlockInfo info = new BlockInfo(block);
+							mainDesk.add(info);
 							info.setVisible(true);
-							getBlocksCanvas().add(info);
 							return;
 						}
 					}

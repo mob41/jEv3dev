@@ -40,8 +40,8 @@ public class BlocksPane extends JPanel {
 				
 				if (arg0.getButton() == MouseEvent.BUTTON3){
 					BlockInfo info = new BlockInfo(testBlock);
+					frame.mainDesk.add(info);
 					info.setVisible(true);
-					frame.getBlocksCanvas().add(info);
 					return;
 				}
 				
@@ -60,8 +60,8 @@ public class BlocksPane extends JPanel {
 				
 				if (arg0.getButton() == MouseEvent.BUTTON3){
 					BlockInfo info = new BlockInfo(testBlock);
+					frame.mainDesk.add(info);
 					info.setVisible(true);
-					frame.getBlocksCanvas().add(info);
 					return;
 				}
 				
