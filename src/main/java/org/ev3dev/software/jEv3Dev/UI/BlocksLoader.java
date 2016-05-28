@@ -71,13 +71,15 @@ public class BlocksLoader {
 		}
 	}
 	
-	public void onMouseTouchCheckAll(Point pos){
+	public Block onMouseTouchCheckAll(Point pos){
 		for (Block block : blocks){
 			if (isPointInArea(pos, block.getLeftX(), block.getRightX(),
 					block.getUpY(), block.getDownY())){
 				block.onMouseTouch();
+				return block;
 			}
 		}
+		return null;
 	}
 	
 	public boolean isPointInArea(Point pos, int areaLeftX, int areaRightX, int areaUpY, int areaDownY){

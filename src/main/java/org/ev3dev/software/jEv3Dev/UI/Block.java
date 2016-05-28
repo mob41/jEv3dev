@@ -156,10 +156,10 @@ public abstract class Block  extends UIObjectBase{
 		int y = getUpY();
 		
 		g.setColor(color);
-		g.fillRoundRect(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT, 20, 25);
+		g.fillRoundRect(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT, 20, DEFAULT_HEIGHT);
 		
 		g.setColor(new Color(242, 242, 242));
-		g.fillRoundRect(x, y + 20, DEFAULT_WIDTH, DEFAULT_HEIGHT - 10, 20, 25);
+		g.fillRoundRect(x, y + 20, DEFAULT_WIDTH, DEFAULT_HEIGHT - 10, 20, DEFAULT_HEIGHT);
 		
 		g.fillRect(x, y + 20, DEFAULT_WIDTH, DEFAULT_HEIGHT - 30);
 		

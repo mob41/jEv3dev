@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JSplitPane;
+import javax.swing.JToolTip;
+import javax.swing.JWindow;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JDesktopPane;
@@ -29,6 +31,7 @@ public class UI extends JFrame {
 	protected JDesktopPane mainDesk;
 	private BlocksVas blocksVas;
 	private JScrollPane blocksScroll;
+	private Block oldBlock;
 
 	/**
 	 * Create the frame.
@@ -75,9 +78,39 @@ public class UI extends JFrame {
 			}
 		});
 		blocksVas.addMouseMotionListener(new MouseMotionAdapter() {
+			private JWindow window;
+			private JLabel label;
+
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
-				BlocksLoader.getBlocksLoader().onMouseTouchCheckAll(contentPane.getMousePosition());
+				Block block = BlocksLoader.getBlocksLoader().onMouseTouchCheckAll(blocksVas.getMousePosition());
+				
+				System.out.println("checking");
+				
+				if (block != null){
+					oldBlock = block;
+					System.out.println("Is not old and not null");
+					blocksVas.getGraphics().drawRect(block.getLeftX(), block.getUpY(), block.getWidth(), block.getHeight());
+					
+					if (label == null){
+						label = new JLabel(block.getName());
+						blocksVas.add(label);
+					}
+					
+					label.setBounds(blocksVas.getMousePosition().x, blocksVas.getMousePosition().y, blocksVas.getGraphics().getFontMetrics().stringWidth(label.getText()) + 10, 15);
+					
+					label.setHorizontalAlignment(JLabel.CENTER);
+					label.setVisible(true);
+				}
+				
+				if (block == null || !block.equals(oldBlock)){
+					if (label != null){
+						blocksVas.remove(label);
+						label = null;
+						
+						blocksVas.repaint();
+					}
+				}
 			}
 		});
 

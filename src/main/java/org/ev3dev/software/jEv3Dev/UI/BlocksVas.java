@@ -39,6 +39,7 @@ public class BlocksVas extends JPanel {
 		this.uiframe = uiframe;
 		setBackground(Color.WHITE);
 		setSize(default_width, default_height);
+		setLayout(null);
 		
 		BlocksLoader loader = BlocksLoader.getBlocksLoader();
 		
