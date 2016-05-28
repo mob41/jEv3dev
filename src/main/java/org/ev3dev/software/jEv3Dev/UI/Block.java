@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.ev3dev.software.jEv3Dev.ActionInterface;
 
@@ -14,7 +17,21 @@ public abstract class Block  extends UIObjectBase{
 	
 	public static final int DEFAULT_HEIGHT = 90;
 	
+	public static final BufferedImage DEFAULT_ICON = getDefaultImageFromClass();
+	
 	private Graphics g;
+	
+	private static BufferedImage getDefaultImageFromClass(){
+		try {
+			return ImageIO.read(
+					Block.class.getResourceAsStream(
+							"/org/ev3dev/software/jEv3Dev/UI/resources/block.fw.png"
+							));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	/**
 	 * Creates a UI Block instance
@@ -83,7 +100,7 @@ public abstract class Block  extends UIObjectBase{
 	 * @return <code>BufferedImage</code> of the icon
 	 */
 	public BufferedImage getIcon(){
-		return null;
+		return DEFAULT_ICON;
 	}
 	
 //Main Action
@@ -124,27 +141,10 @@ public abstract class Block  extends UIObjectBase{
 		return null;
 	}
 	
-//Default touched
-	
-	public boolean onMouseTouch(){
-		drawSelected();
-		return true;
-	}
-	
 //Default draw
 	
 	public void drawThis(Graphics g){
 		drawThis(g, Color.GREEN);
-	}
-	
-	public void drawSelected(){
-		int x = getLeftX();
-		int y = getUpY();
-		
-		System.out.println("DRAWING SELECTED");
-		g.setColor(Color.BLACK);
-		g.fillRoundRect(x + 5, y + 5, DEFAULT_WIDTH, DEFAULT_HEIGHT, 20, 25);
-		drawThis(g);
 	}
 	
 	/**
@@ -174,5 +174,7 @@ public abstract class Block  extends UIObjectBase{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.BLUE);
 		g2.drawString("Motor", x + 10, y + 13);
+		
+		g2.drawImage(getIcon(), x + 10, y + 20, null);
 	}
 }

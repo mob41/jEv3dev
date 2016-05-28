@@ -43,7 +43,7 @@ public class BlocksVas extends JPanel {
 		
 		BlocksLoader loader = BlocksLoader.getBlocksLoader();
 		
-		Rail rail = new Rail(80, 80);
+		Rail rail = new Rail(80, default_height / 2);
 		loader.blocks.add(rail);
 		
 		Point point;

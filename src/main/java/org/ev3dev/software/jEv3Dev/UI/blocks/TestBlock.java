@@ -21,7 +21,6 @@ public class TestBlock extends Block {
 	}
 
 	public boolean onMouseTouch() {
-		super.onMouseTouch();
 		System.out.println("Touched!" + this.hashCode());
 		// TODO Auto-generated method stub
 		return false;
