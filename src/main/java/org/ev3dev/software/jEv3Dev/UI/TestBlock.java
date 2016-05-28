@@ -14,8 +14,6 @@ public class TestBlock extends Block {
 	public void drawThis(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(150, 150, 50, 50);
-		// TODO Auto-generated method stub
-
 	}
 
 	public boolean onMouseTouch() {
