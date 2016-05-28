@@ -22,7 +22,7 @@ public class BlockInfo extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public BlockInfo(Block block) {
-		setTitle("BlockInfo");
+		setTitle(block.getName() + " - Block Information");
 		setResizable(true);
 		setClosable(true);
 		setBounds(100, 100, 350, 337);

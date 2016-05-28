@@ -24,6 +24,10 @@ import java.awt.event.MouseMotionAdapter;
 import java.util.Calendar;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
 
 public class UI extends JFrame {
 
@@ -43,107 +47,131 @@ public class UI extends JFrame {
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		JMenuItem mntmLoadProject = new JMenuItem("Load Project");
+		mnFile.add(mntmLoadProject);
+		
+		JMenuItem mntmDeployProject = new JMenuItem("Deploy Project");
+		mnFile.add(mntmDeployProject);
+		
+		JMenu mnEdit = new JMenu("Edit");
+		menuBar.add(mnEdit);
+		
+		JMenuItem mntmCut = new JMenuItem("Cut");
+		mnEdit.add(mntmCut);
+		
+		JMenuItem mntmCopy = new JMenuItem("Copy");
+		mnEdit.add(mntmCopy);
+		
+		JMenuItem mntmPaste = new JMenuItem("Paste");
+		mnEdit.add(mntmPaste);
+		
+		JSeparator separator = new JSeparator();
+		mnEdit.add(separator);
+		
+		JMenuItem mntmPreferences = new JMenuItem("Preferences");
+		mnEdit.add(mntmPreferences);
 		contentPane = new JPanel();
 		
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
-		mainDesk = new JDesktopPane();
-		mainDesk.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
-		contentPane.add(mainDesk, BorderLayout.CENTER);
-		
-		JSplitPane split1 = new JSplitPane();
-		split1.setResizeWeight(0.9);
-		
-		JSplitPane split2 = new JSplitPane();
-		split2.setResizeWeight(0.8);
-		split2.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		split1.setLeftComponent(split2);
-		
-		blocksScroll = new JScrollPane();
-		split2.setLeftComponent(blocksScroll);
-		
-		blocksVas = new BlocksVas(this);
-		blocksScroll.setViewportView(blocksVas);
-		
-		blocksVas.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Block block = BlocksLoader.getBlocksLoader().onMouseClickCheckAll(contentPane.getMousePosition());
-			
-				if (block != null && e.getButton() == MouseEvent.BUTTON3){
-					BlockInfo info = new BlockInfo(block);
-					info.setVisible(true);
-					getBlocksCanvas().add(info);
-					return;
-				}
-			}
-			@Override
-			public void mousePressed(MouseEvent e) {
-				Block block = BlocksLoader.getBlocksLoader().onMousePressCheckAll(contentPane.getMousePosition());
 				
-				if (block != null && e.getButton() == MouseEvent.BUTTON3){
-					BlockInfo info = new BlockInfo(block);
-					info.setVisible(true);
-					getBlocksCanvas().add(info);
-					return;
-				}
-			}
-		});
-		blocksVas.addMouseMotionListener(new MouseMotionAdapter() {
-			private JWindow window;
-			private JLabel label;
-
-			@Override
-			public void mouseMoved(MouseEvent arg0) {
-				Block block = BlocksLoader.getBlocksLoader().onMouseTouchCheckAll(blocksVas.getMousePosition());
+				JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+				contentPane.add(tabbedPane, BorderLayout.CENTER);
 				
-				System.out.println("checking");
+				mainDesk = new JDesktopPane();
+				tabbedPane.addTab("*New Project", null, mainDesk, null);
+				mainDesk.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
 				
-				if (block == null || (block != null && oldBlock != null && !block.equals(oldBlock))){
-					oldBlock = null;
-					if (label != null){
-						blocksVas.remove(label);
-						label = null;
+				JSplitPane split1 = new JSplitPane();
+				split1.setResizeWeight(0.9);
+				
+				JSplitPane split2 = new JSplitPane();
+				split2.setResizeWeight(0.8);
+				split2.setOrientation(JSplitPane.VERTICAL_SPLIT);
+				split1.setLeftComponent(split2);
+				
+				blocksScroll = new JScrollPane();
+				split2.setLeftComponent(blocksScroll);
+				
+				blocksVas = new BlocksVas(this);
+				blocksScroll.setViewportView(blocksVas);
+				
+				blocksVas.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						BlocksLoader.getBlocksLoader().onMouseClickCheckAll(blocksVas.getMousePosition());
 					}
-					blocksVas.repaint();
-				} else {
-					oldBlock = block;
-					System.out.println("Is not old and not null");
-					blocksVas.getGraphics().drawRect(block.getLeftX(), block.getUpY(), block.getWidth(), block.getHeight());
-					
-					if (label == null){
-						label = new JLabel();
-						blocksVas.add(label);
+					@Override
+					public void mousePressed(MouseEvent e) {
+						Block block = BlocksLoader.getBlocksLoader().onMousePressCheckAll(blocksVas.getMousePosition());
+						
+						System.out.println("PRESSED. " + block);
+						if (block != null && e.getButton() == MouseEvent.BUTTON3){
+							System.out.println("Found block: " + block.getName());
+							BlockInfo info = new BlockInfo(block);
+							info.setVisible(true);
+							getBlocksCanvas().add(info);
+							return;
+						}
 					}
-					
-					label.setText(block.getName());
-					label.setBounds(blocksVas.getMousePosition().x, blocksVas.getMousePosition().y, blocksVas.getGraphics().getFontMetrics().stringWidth(label.getText()) + 10, 15);
-					
-					label.setHorizontalAlignment(JLabel.CENTER);
-					label.setVisible(true);
-				}
-			}
-		});
+				});
+				blocksVas.addMouseMotionListener(new MouseMotionAdapter() {
+					private JWindow window;
+					private JLabel label;
 
-		JScrollPane actionsScroll = new JScrollPane();
-		actionsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		split2.setRightComponent(actionsScroll);
-		
-		BlocksPane actionsPane = new BlocksPane(this);
-		actionsScroll.setViewportView(actionsPane);
-		GroupLayout gl_mainDesk = new GroupLayout(mainDesk);
-		gl_mainDesk.setHorizontalGroup(
-			gl_mainDesk.createParallelGroup(Alignment.LEADING)
-				.addComponent(split1, GroupLayout.DEFAULT_SIZE, 1254, Short.MAX_VALUE)
-		);
-		gl_mainDesk.setVerticalGroup(
-			gl_mainDesk.createParallelGroup(Alignment.LEADING)
-				.addComponent(split1, GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
-		);
-		
-		mainDesk.setLayout(gl_mainDesk);
+					@Override
+					public void mouseMoved(MouseEvent arg0) {
+						Block block = BlocksLoader.getBlocksLoader().onMouseTouchCheckAll(blocksVas.getMousePosition());
+						
+						System.out.println("checking");
+						
+						if (block == null || (block != null && oldBlock != null && !block.equals(oldBlock))){
+							oldBlock = null;
+							if (label != null){
+								blocksVas.remove(label);
+								label = null;
+							}
+							blocksVas.repaint();
+						} else {
+							oldBlock = block;
+							System.out.println("Is not old and not null");
+							blocksVas.getGraphics().drawRect(block.getLeftX(), block.getUpY(), block.getWidth(), block.getHeight());
+							
+							if (label == null){
+								label = new JLabel();
+								blocksVas.add(label);
+							}
+							
+							label.setText(block.getName());
+							label.setBounds(blocksVas.getMousePosition().x, blocksVas.getMousePosition().y, blocksVas.getGraphics().getFontMetrics().stringWidth(label.getText()) + 10, 15);
+							
+							label.setHorizontalAlignment(JLabel.CENTER);
+							label.setVisible(true);
+						}
+					}
+				});
+				
+						JScrollPane actionsScroll = new JScrollPane();
+						actionsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+						split2.setRightComponent(actionsScroll);
+						
+						BlocksPane actionsPane = new BlocksPane(this);
+						actionsScroll.setViewportView(actionsPane);
+						GroupLayout gl_mainDesk = new GroupLayout(mainDesk);
+						gl_mainDesk.setHorizontalGroup(
+							gl_mainDesk.createParallelGroup(Alignment.LEADING)
+								.addComponent(split1, GroupLayout.DEFAULT_SIZE, 1254, Short.MAX_VALUE)
+						);
+						gl_mainDesk.setVerticalGroup(
+							gl_mainDesk.createParallelGroup(Alignment.LEADING)
+								.addComponent(split1, GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+						);
+						
+						mainDesk.setLayout(gl_mainDesk);
 	}
 	
 	public BlocksVas getBlocksCanvas(){
