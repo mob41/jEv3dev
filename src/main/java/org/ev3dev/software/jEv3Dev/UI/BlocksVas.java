@@ -16,9 +16,9 @@ import org.ev3dev.software.jEv3Dev.UI.blocks.Rail;
 
 public class BlocksVas extends JPanel {
 	
-	private static final int default_width = 1130;
+	public static final int default_width = 1130;
 	
-	private static final int default_height = 439;
+	public static final int default_height = 439;
 	
 	private static final int LEFT = 0;
 	
@@ -79,7 +79,15 @@ public class BlocksVas extends JPanel {
 			uiframe.getBlocksScroll().updateUI();
 		}
 		
-		for (Block block : loader.blocks){
+		for (int i = 0; i < loader.blocks.size(); i++){
+			Block block = loader.blocks.get(i);
+			
+			Point point = new Point(80, currHeight / 2);
+			if (i > 0){
+				point = loader.getAfterBlockPos(loader.blocks.get(i - 1), block.getHeight());
+			}
+			
+			block.setPos(point);
 			block.drawThis(g);
 		}
 	}

@@ -191,18 +191,13 @@ public class ProjectPane extends JDesktopPane {
 				if (oldDraggingBlock != null){
 					System.out.println("Not null");
 					if (block.getShortName().equals("blocksRail")){
-						if (block.getWidth() < (block.getLeftX() + pos.getX())){
+						if (block.getWidth() < block.getWidth() + block.getRightX() - pos.getX()){
 							System.out.println("Inserting block");
-							Rail rail = new Rail(false, false);
+							Rail rail = new Rail(false, true);
 							blocksLoader.insertBlock(block, rail);
-							blocksVas.repaint();
-							return;
-						} else if (block.getWidth() < (block.getRightX() + pos.getX())){
-							System.out.println("Removing Block");
-							blocksLoader.removeBlock(block);
-							blocksVas.repaint();
-							return;
-						}
+						} 
+						blocksVas.repaint();
+						return;
 					}
 				}
 				

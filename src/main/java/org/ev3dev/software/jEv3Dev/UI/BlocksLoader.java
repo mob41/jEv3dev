@@ -36,8 +36,12 @@ public class BlocksLoader {
 	}
 	
 	public Point getAfterBlockPos(Block block, int height){
+		System.out.println("AfterBlock: " + block.getName());
+		System.out.println("Location: " + block.getUpRightPos());
 		int x = block.getRightX();
+		System.out.println("X: " + x);
 		int cy = (int) ((double) (block.getUpY() + block.getDownY()) / (double) 2);
+		System.out.println("point: (" + x + ", " + (cy - (height/ 2)) + ")");
 		return new Point(x, cy - (height / 2));
 	}
 	
