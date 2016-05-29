@@ -65,15 +65,15 @@ public class BlocksLoader {
 			System.err.println("No such block!");
 			return;
 		}
-		
-		insertBlock(index, newBlock);
+		System.out.println("Insert block to index: " + index );
+		insertBlock(index + 1, newBlock);
 	}
 	
 	public void insertBlock(int index, Block block){
 		Block anotherBlock = blocks.get(index - 1);
-		
-		Point pos = getAfterBlockPos(anotherBlock, anotherBlock.getHeight());
-		
+		System.out.println("AnotherBlock: " + anotherBlock.getRightX());
+		Point pos = getAfterBlockPos(anotherBlock, block.getHeight());
+		System.out.println("NewPOS: " + pos);
 		block.setPos(pos);
 		
 		blocks.add(index, block);

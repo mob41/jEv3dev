@@ -24,6 +24,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import org.ev3dev.software.jEv3Dev.UI.blocks.Rail;
+
 public class ProjectPane extends JDesktopPane {
 
 	protected BlocksLoader blocksLoader;
@@ -33,8 +35,10 @@ public class ProjectPane extends JDesktopPane {
 	private JWindow window;
 	private JLabel label;
 	private Block oldBlock;
+	private Block oldDraggingBlock;
 	
 	private UI ui;
+	private JMenuItem mntmRemove;
 
 	/**
 	 * Create the panel.
@@ -71,12 +75,27 @@ public class ProjectPane extends JDesktopPane {
 			}
 			
 			public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {
+				Point pos = blocksVas.getMousePosition();
 				
+				if (pos == null){
+					mntmRemove.setEnabled(false);
+					return;
+				}
+				
+				Block block = blocksLoader.getBlockAtPosition(pos);
+				
+				if (block == null){
+					mntmRemove.setEnabled(false);
+					mntmRemove.setToolTipText("No block is at this position");
+				} else {
+					mntmRemove.setEnabled(true);
+					mntmRemove.setToolTipText(null);
+				}
 			}
 		});
 		addPopup(blocksVas, popupMenu);
 		
-		JMenuItem mntmRemove = new JMenuItem("Remove");
+		mntmRemove = new JMenuItem("Remove");
 		mntmRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Point pos = blocksVas.getMousePosition(true);
@@ -157,6 +176,44 @@ public class ProjectPane extends JDesktopPane {
 					label.setHorizontalAlignment(JLabel.CENTER);
 					label.setVisible(true);
 				}
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				Point pos = e.getPoint();
+				Block block = blocksLoader.getBlockAtPosition(pos);
+				
+				if (block == null){
+					oldDraggingBlock = null;
+					return;
+				}
+				
+				if (oldDraggingBlock != null){
+					System.out.println("Not null");
+					if (block.getShortName().equals("blocksRail")){
+						if (block.getWidth() < (block.getLeftX() + pos.getX())){
+							System.out.println("Inserting block");
+							Rail rail = new Rail(false, false);
+							blocksLoader.insertBlock(block, rail);
+							blocksVas.repaint();
+							return;
+						} else if (block.getWidth() < (block.getRightX() + pos.getX())){
+							System.out.println("Removing Block");
+							blocksLoader.removeBlock(block);
+							blocksVas.repaint();
+							return;
+						}
+					}
+				}
+				
+				if (block.getShortName().equals("blocksRail")){
+					oldDraggingBlock = block;
+					System.out.println("Pulling blocks rail..." + pos);
+				} else {
+					oldDraggingBlock = null;
+				}
+				
+				blocksVas.repaint();
 			}
 		});
 		

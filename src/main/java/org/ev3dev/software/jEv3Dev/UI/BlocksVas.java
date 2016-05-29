@@ -62,6 +62,10 @@ public class BlocksVas extends JPanel {
 		}
 	}
 
+	/**
+	 * Draws all the blocks of this blocks canvas
+	 */
+	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		
