@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.ev3dev.software.jEv3Dev.ActionInterface;
+import org.ev3dev.software.jEv3Dev.actions.Action;
 
 public abstract class Block  extends UIObjectBase{
 	
@@ -119,7 +120,7 @@ public abstract class Block  extends UIObjectBase{
 		return false;
 	}
 	
-	public ActionInterface[] getActionsTypes(){
+	public Action[] getActionsTypes(){
 		return null;
 	}
 	
