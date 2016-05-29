@@ -20,15 +20,15 @@ public class Rail extends Block{
 	
 	private boolean hasEnd;
 	
-	public Rail(int x, int y, boolean hasHead, boolean hasEnd){
-		super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	public Rail(boolean hasHead, boolean hasEnd){
+		super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		
 		this.hasHead = hasHead;
 		this.hasEnd = hasEnd;
 	}
 
-	public Rail(int x, int y){
-		super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	public Rail(){
+		super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		
 		hasHead = true;
 		hasEnd = true;

@@ -9,8 +9,8 @@ public class TestBlock extends Block {
 
 	private Color color;
 	
-	public TestBlock(int x, int y, Color color) {
-		super(x, y);
+	public TestBlock(Color color) {
+		super();
 		this.color = color;
 		System.out.println("Created! " + this.hashCode());
 		// TODO Auto-generated constructor stub

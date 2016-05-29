@@ -33,6 +33,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.JToolBar;
 
 public class UI extends JFrame {
 
@@ -41,6 +48,7 @@ public class UI extends JFrame {
 	private BlocksVas blocksVas;
 	private JScrollPane blocksScroll;
 	private Block oldBlock;
+	private JLabel lblXY;
 
 	/**
 	 * Create the frame.
@@ -104,6 +112,46 @@ public class UI extends JFrame {
 				
 				blocksVas = new BlocksVas(this);
 				blocksScroll.setViewportView(blocksVas);
+				
+				JPopupMenu popupMenu = new JPopupMenu();
+				popupMenu.addPopupMenuListener(new PopupMenuListener() {
+					
+					public void popupMenuCanceled(PopupMenuEvent arg0) {
+						
+					}
+					
+					public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {
+						
+					}
+					
+					public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {
+						
+					}
+				});
+				addPopup(blocksVas, popupMenu);
+				
+				JMenuItem mntmRemove = new JMenuItem("Remove");
+				mntmRemove.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						Point pos = blocksVas.getMousePosition();
+						
+						if (pos == null){
+							System.err.println("Not in BlockVas");
+							return;
+						}
+						
+						Block block = BlocksLoader.getBlocksLoader().getBlockAtPosition(pos);
+						
+						if (block != null){
+							BlocksLoader.getBlocksLoader().removeBlock(block);
+						} else {
+							System.err.println("No block is there!");
+						}
+						
+						blocksVas.repaint();
+					}
+				});
+				popupMenu.add(mntmRemove);
 				EventQueue.invokeLater(new Runnable(){
 					public void run(){
 						Rectangle bounds = blocksScroll.getViewport().getViewRect();
@@ -125,7 +173,7 @@ public class UI extends JFrame {
 					public void mousePressed(MouseEvent e) {
 						Block block = BlocksLoader.getBlocksLoader().onMousePressCheckAll(blocksVas.getMousePosition());
 						
-						if (block != null && e.getButton() == MouseEvent.BUTTON3){
+						if (block != null && e.getButton() == -5){
 							BlockInfo info = new BlockInfo(block);
 							mainDesk.add(info);
 							info.setVisible(true);
@@ -139,6 +187,7 @@ public class UI extends JFrame {
 
 					@Override
 					public void mouseMoved(MouseEvent arg0) {
+						lblXY.setText("X: " + blocksVas.getMousePosition().x + " Y: " + blocksVas.getMousePosition().y);
 						Block block = BlocksLoader.getBlocksLoader().onMouseTouchCheckAll(blocksVas.getMousePosition());
 						
 						
@@ -184,6 +233,13 @@ public class UI extends JFrame {
 						);
 						
 						mainDesk.setLayout(gl_mainDesk);
+						
+						JToolBar toolBar = new JToolBar();
+						toolBar.setFloatable(false);
+						contentPane.add(toolBar, BorderLayout.SOUTH);
+						
+						lblXY = new JLabel("X: --- Y: ---");
+						toolBar.add(lblXY);
 	}
 	
 	public BlocksVas getBlocksCanvas(){
@@ -192,5 +248,22 @@ public class UI extends JFrame {
 	
 	public JScrollPane getBlocksScroll(){
 		return blocksScroll;
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }

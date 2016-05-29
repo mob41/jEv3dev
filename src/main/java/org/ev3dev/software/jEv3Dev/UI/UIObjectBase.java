@@ -4,27 +4,50 @@ import java.awt.Point;
 
 public abstract class UIObjectBase implements UIObject{
 	
-	private final int xleft;
+	private int xleft;
 	
-	private final int xright;
+	private int xright;
 	
-	private final int yup;
+	private int yup;
 	
-	private final int ydown;
+	private int ydown;
 	
-	private final int width;
+	private int width;
 	
-	private final int height;
+	private int height;
 	
-	public UIObjectBase(int x, int y, int width, int height){
-		this.xleft = x;
-		this.xright = x + width;
-		
-		this.yup = y;
-		this.ydown = y + height;
-		
+	public UIObjectBase(int width, int height){
 		this.width = width;
 		this.height = height;
+	}
+	
+	/**
+	 * Sets the "Up-left" position of this UIObject
+	 * @param pos
+	 */
+	public void setPos(Point pos){
+		setLeftX(pos.x);
+		setUpY(pos.y);
+	}
+	
+	public void setLeftX(int x){
+		this.xleft = x;
+		this.xright = x + width;
+	}
+	
+	public void setUpY(int y){
+		this.yup = y;
+		this.ydown = y + height;
+	}
+	
+	public void setRightX(int x){
+		this.xleft = x - width;
+		this.xright = x;
+	}
+	
+	public void setDownY(int y){
+		this.yup = y - height;
+		this.ydown = y;
 	}
 	
 	public Point getUpLeftPos(){

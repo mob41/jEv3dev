@@ -46,14 +46,15 @@ public class BlocksVas extends JPanel {
 		
 		BlocksLoader loader = BlocksLoader.getBlocksLoader();
 		
-		Rail rail = new Rail(80, currHeight / 2);
+		Rail rail = new Rail();
+		rail.setPos(new Point(80, currHeight / 2));
 		loader.blocks.add(rail);
 		
 		Point point;
 		for (int i = 0; i < 1; i++){
-			point = loader.getNextBlockPos();
-			rail = new Rail(point.x, point.y + Rail.DEFAULT_HEIGHT, false, true);
-			
+			rail = new Rail(false, true);
+			point = loader.getNextBlockPos(Rail.DEFAULT_HEIGHT);
+			rail.setPos(point);
 			loader.blocks.add(rail);
 		}
 	}

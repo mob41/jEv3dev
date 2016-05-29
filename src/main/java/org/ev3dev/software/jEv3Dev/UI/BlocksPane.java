@@ -36,7 +36,7 @@ public class BlocksPane extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				Point nextPos = BlocksLoader.getBlocksLoader().getNextBlockPos();
-				TestBlock testBlock = new TestBlock(nextPos.x, nextPos.y, Color.GREEN);
+				TestBlock testBlock = new TestBlock(Color.GREEN);
 				
 				if (arg0.getButton() == MouseEvent.BUTTON3){
 					BlockInfo info = new BlockInfo(testBlock);
@@ -55,8 +55,7 @@ public class BlocksPane extends JPanel {
 		lblTestItemRED.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				Point nextPos = BlocksLoader.getBlocksLoader().getNextBlockPos();
-				TestBlock testBlock = new TestBlock(nextPos.x, nextPos.y, Color.RED);
+				TestBlock testBlock = new TestBlock(Color.RED);
 				
 				if (arg0.getButton() == MouseEvent.BUTTON3){
 					BlockInfo info = new BlockInfo(testBlock);

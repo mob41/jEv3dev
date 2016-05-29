@@ -40,8 +40,8 @@ public abstract class Block  extends UIObjectBase{
 	 * @param width Width of block
 	 * @param height Height of block
 	 */
-	public Block(int x, int y, int width, int height) {
-		super(x, y, width, height);
+	public Block(int width, int height) {
+		super(width, height);
 	}
 	
 	/**
@@ -49,8 +49,8 @@ public abstract class Block  extends UIObjectBase{
 	 * @param x x location of block
 	 * @param y y location of block
 	 */
-	public Block(int x, int y) {
-		super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	public Block() {
+		super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 	
 //Basic information
