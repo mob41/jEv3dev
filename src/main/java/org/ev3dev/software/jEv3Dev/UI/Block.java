@@ -14,6 +14,10 @@ import org.ev3dev.software.jEv3Dev.actions.Action;
 
 public abstract class Block  extends UIObjectBase{
 	
+	public static final int PARAMETER_WIDTH = 30;
+	
+	public static final int PARAMETERS_SPACE = 10;
+	
 	public static final int DEFAULT_WIDTH = 180;
 	
 	public static final int DEFAULT_HEIGHT = 90;
@@ -43,6 +47,12 @@ public abstract class Block  extends UIObjectBase{
 	 */
 	public Block(int width, int height) {
 		super(width, height);
+		
+		for (int i = 0; i < getParametersNames().length; i++){
+			width += PARAMETER_WIDTH + PARAMETERS_SPACE;
+		}
+		
+		setWidth(width);
 	}
 	
 	/**
@@ -52,6 +62,14 @@ public abstract class Block  extends UIObjectBase{
 	 */
 	public Block() {
 		super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		
+		int width = DEFAULT_WIDTH;
+		
+		for (int i = 0; i < getParametersNames().length; i++){
+			width += PARAMETER_WIDTH + PARAMETERS_SPACE;
+		}
+		
+		setWidth(width);
 	}
 	
 //Basic information
@@ -138,8 +156,12 @@ public abstract class Block  extends UIObjectBase{
 		return null;
 	}
 	
-	public String[] getParametersTypes(){
-		return null;
+	public String[] getParametersNames(){
+		return new String[]{};
+	}
+	
+	public Class<?>[] getParametersTypes(){
+		return new Class<?>[]{};
 	}
 	
 //Default draw
@@ -164,17 +186,28 @@ public abstract class Block  extends UIObjectBase{
 		int x = getLeftX();
 		int y = getUpY();
 		
+		int width = getWidth();
+		
+		
+		
 		g.setColor(color);
-		g.fillRoundRect(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT, 20, DEFAULT_HEIGHT);
+		g.fillRoundRect(x, y, width, DEFAULT_HEIGHT, 20, DEFAULT_HEIGHT);
 		
 		g.setColor(new Color(242, 242, 242));
-		g.fillRoundRect(x, y + 20, DEFAULT_WIDTH, DEFAULT_HEIGHT - 10, 20, DEFAULT_HEIGHT);
+		g.fillRoundRect(x, y + 20, width, DEFAULT_HEIGHT - 10, 20, DEFAULT_HEIGHT);
 		
-		g.fillRect(x, y + 20, DEFAULT_WIDTH, DEFAULT_HEIGHT - 30);
+		g.fillRect(x, y + 20, width, DEFAULT_HEIGHT - 30);
+		
+		for (int i = 0; i < getParametersNames().length; i++){
+			g.setColor(Color.DARK_GRAY);
+			g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 70, 30, 30);
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 2, y + 72, 27, 28);
+		}
 		
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.BLUE);
-		g2.drawString("Motor", x + 10, y + 13);
+		g2.drawString(getName(), x + 10, y + 13);
 		
 		g2.drawImage(getIcon(), x + 10, y + 20, null);
 	}

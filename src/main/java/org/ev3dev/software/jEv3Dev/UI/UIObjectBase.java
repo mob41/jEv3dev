@@ -50,6 +50,20 @@ public abstract class UIObjectBase implements UIObject{
 		this.ydown = y;
 	}
 	
+	public void setWidth(int width){
+		this.xright = xleft + width;
+		this.xleft = xright - width;
+		
+		this.width = width;
+	}
+	
+	public void setHeight(int height){
+		this.ydown = yup + height;
+		this.yup = ydown - height;
+		
+		this.height = height;
+	}
+	
 	public Point getUpLeftPos(){
 		return new Point(xleft, yup);
 	}

@@ -25,5 +25,10 @@ public class TestBlock extends Block {
 	public boolean onMousePress() {
 		return false;
 	}
+	
+	@Override
+	public String[] getParametersNames(){
+		return new String[]{"Hi", "Hi", "HI", "!!!!","Hi", "Hi", "HI", "!!!!","Hi", "Hi", "HI", "!!!!"};
+	}
 
 }
