@@ -39,6 +39,7 @@ public class ProjectPane extends JDesktopPane {
 	
 	private UI ui;
 	private JMenuItem mntmRemove;
+	private JMenuItem mntmMakeRailShorter;
 
 	/**
 	 * Create the panel.
@@ -85,9 +86,17 @@ public class ProjectPane extends JDesktopPane {
 				Block block = blocksLoader.getBlockAtPosition(pos);
 				
 				if (block == null){
+					mntmMakeRailShorter.setVisible(false);
+					mntmRemove.setVisible(true);
 					mntmRemove.setEnabled(false);
 					mntmRemove.setToolTipText("No block is at this position");
+				} else if (block.getShortName().equals("blocksRail")){
+					mntmRemove.setVisible(false);
+					mntmMakeRailShorter.setVisible(true);
+					mntmMakeRailShorter.setEnabled(true);
 				} else {
+					mntmMakeRailShorter.setVisible(false);
+					mntmRemove.setVisible(true);
 					mntmRemove.setEnabled(true);
 					mntmRemove.setToolTipText(null);
 				}
@@ -117,6 +126,35 @@ public class ProjectPane extends JDesktopPane {
 			}
 		});
 		popupMenu.add(mntmRemove);
+		
+		mntmMakeRailShorter = new JMenuItem("Make rail shorter");
+		mntmMakeRailShorter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Point pos = blocksVas.getMousePosition(true);
+				
+				if (pos == null){
+					System.err.println("Not in BlockVas");
+					return;
+				}
+				
+				Block block = blocksLoader.getBlockAtPosition(pos);
+				
+				if (block == null){
+					System.err.println("No block related");
+					return;
+				}
+				
+				if (!block.getShortName().equals("blocksRail")){
+					System.err.println("Not a rail");
+					return;
+				} else {
+					blocksLoader.blocks.remove(block);
+				}
+				
+				blocksVas.repaint();
+			}
+		});
+		popupMenu.add(mntmMakeRailShorter);
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
 				Rectangle bounds = blocksScroll.getViewport().getViewRect();
@@ -191,6 +229,7 @@ public class ProjectPane extends JDesktopPane {
 				if (oldDraggingBlock != null){
 					System.out.println("Not null");
 					if (block.getShortName().equals("blocksRail")){
+						
 						System.out.println("--BlockWidth: " + block.getWidth());
 						System.out.println("Width/3: " + block.getWidth() / 3);
 						System.out.println("--PosX: " + pos.getX());
@@ -204,19 +243,29 @@ public class ProjectPane extends JDesktopPane {
 							System.out.println("Inserting block");
 							Rail rail = new Rail(false, true);
 							blocksLoader.insertBlock(block, rail);
-						} else if (block.getWidth() > pos.getX() - block.getRightX()){
+						} else {
 							System.out.println("No, But BlockWidth is bigger than PosX-RightX");
+							
+							switch (blocksLoader.blocks.indexOf(block)){
+							case 0:
+							case 1:
+								oldDraggingBlock = null;
+								return;
+							}
+							
+							if (blocksLoader.blocks.size() <= 2){
+								return;
+							
+							}
+							
 							blocksLoader.blocks.remove(block);
 							System.out.println("!!Removed block");
-						} else {
-							System.out.println("No, ending.");
 						}
-						
-						oldDraggingBlock = null;
 						System.out.println("Repainting");
 						blocksVas.repaint();
-						return;
 					}
+					oldDraggingBlock = null;
+					return;
 				}
 				
 				if (block.getShortName().equals("blocksRail")){
@@ -273,5 +322,4 @@ public class ProjectPane extends JDesktopPane {
 	protected BlocksVas getBlocksCanvas(){
 		return blocksVas;
 	}
-
 }
