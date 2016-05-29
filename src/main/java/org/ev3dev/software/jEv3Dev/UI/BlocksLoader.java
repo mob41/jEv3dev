@@ -37,17 +37,7 @@ public class BlocksLoader {
 	
 	public Point getAfterBlockPos(Block block, int height){
 		int x = block.getRightX();
-		System.out.println("================ START ===================");
-		System.out.println("Right X: " + x);
-		System.out.println("Up Y: " + block.getUpY());
-		System.out.println("Down Y: " + block.getDownY());
-		System.out.println("Add together: " + (block.getUpY() + block.getDownY()));
 		int cy = (int) ((double) (block.getUpY() + block.getDownY()) / (double) 2);
-		System.out.println("Divide: " + cy);
-		System.out.println("Height: " + height);
-		System.out.println("Divide Height: " + (height / 2));
-		System.out.println("Sub height/2: " + (cy - (height / 2)));
-		System.out.println("================ END ===================");
 		return new Point(x, cy - (height / 2));
 	}
 	
@@ -82,13 +72,7 @@ public class BlocksLoader {
 	public void insertBlock(int index, Block block){
 		Block anotherBlock = blocks.get(index - 1);
 		
-		System.out.println(anotherBlock.getName());
-		
-		System.out.println("======================================= CALC After POS");
 		Point pos = getAfterBlockPos(anotherBlock, anotherBlock.getHeight());
-		System.out.println("======================================= END CALC After POS");
-		System.out.println("Height: " + anotherBlock.getHeight());
-		System.out.println("PosAfter: " + index + " of " + pos);
 		
 		block.setPos(pos);
 		
@@ -110,11 +94,9 @@ public class BlocksLoader {
 		if (addRails){
 			int width = block.getWidth();
 			int amount = width / Rail.DEFAULT_WIDTH;
-			System.out.println("Add amounts: " + amount);
 			Point point;
 			Rail rail;
 			for (int i = 0; i < amount; i++){
-				System.out.println("Adding: " + i + " (" + (i + index) + ")");
 				rail = new Rail(false, true);
 				insertBlock(i + index, rail);
 			}
