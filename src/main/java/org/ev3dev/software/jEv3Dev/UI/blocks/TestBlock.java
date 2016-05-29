@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import org.ev3dev.software.jEv3Dev.UI.Block;
+import org.ev3dev.software.jEv3Dev.UI.Parameter;
 
 public class TestBlock extends Block {
 
@@ -12,6 +13,14 @@ public class TestBlock extends Block {
 	public TestBlock(Color color) {
 		super();
 		this.color = color;
+		
+		Parameter pm = new Parameter("Name", Integer.class, 1){
+			@Override
+			public boolean isUIReadable(){
+				return true;
+			}
+		};
+		addParameter(pm);
 	}
 
 	public boolean onMouseTouch() {
@@ -24,11 +33,6 @@ public class TestBlock extends Block {
 
 	public boolean onMousePress() {
 		return false;
-	}
-	
-	@Override
-	public String[] getParametersNames(){
-		return new String[]{"Hi", "Hi", "HI", "!!!!","Hi", "Hi", "HI", "!!!!","Hi", "Hi", "HI", "!!!!"};
 	}
 
 }

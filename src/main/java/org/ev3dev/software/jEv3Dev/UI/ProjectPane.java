@@ -40,6 +40,7 @@ public class ProjectPane extends JDesktopPane {
 	private UI ui;
 	private JMenuItem mntmRemove;
 	private JMenuItem mntmMakeRailShorter;
+	private JMenuItem mntmBlockInformation;
 
 	/**
 	 * Create the panel.
@@ -87,15 +88,18 @@ public class ProjectPane extends JDesktopPane {
 				
 				if (block == null){
 					mntmMakeRailShorter.setVisible(false);
+					mntmBlockInformation.setEnabled(false);
 					mntmRemove.setVisible(true);
 					mntmRemove.setEnabled(false);
 					mntmRemove.setToolTipText("No block is at this position");
 				} else if (block.getShortName().equals("blocksRail")){
 					mntmRemove.setVisible(false);
+					mntmBlockInformation.setEnabled(true);
 					mntmMakeRailShorter.setVisible(true);
 					mntmMakeRailShorter.setEnabled(true);
 				} else {
 					mntmMakeRailShorter.setVisible(false);
+					mntmBlockInformation.setEnabled(true);
 					mntmRemove.setVisible(true);
 					mntmRemove.setEnabled(true);
 					mntmRemove.setToolTipText(null);
@@ -155,6 +159,30 @@ public class ProjectPane extends JDesktopPane {
 			}
 		});
 		popupMenu.add(mntmMakeRailShorter);
+		
+		mntmBlockInformation = new JMenuItem("Block Information");
+		mntmBlockInformation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Point pos = blocksVas.getMousePosition(true);
+				
+				if (pos == null){
+					System.err.println("Not in BlockVas");
+					return;
+				}
+				
+				Block block = blocksLoader.getBlockAtPosition(pos);
+				
+				if (block == null){
+					System.err.println("No block related to block info");
+					return;
+				}
+				
+				BlockInfo blockInfo = new BlockInfo(block);
+				add(blockInfo);
+				blockInfo.setVisible(true);
+			}
+		});
+		popupMenu.add(mntmBlockInformation);
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
 				Rectangle bounds = blocksScroll.getViewport().getViewRect();
@@ -201,6 +229,7 @@ public class ProjectPane extends JDesktopPane {
 					blocksVas.repaint();
 				} else {
 					oldBlock = block;
+					System.out.println("Drawing RECT Height: " + block.getHeight());
 					blocksVas.getGraphics().drawRect(block.getLeftX(), block.getUpY(), block.getWidth(), block.getHeight());
 					
 					if (label == null){

@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -13,6 +15,8 @@ import org.ev3dev.software.jEv3Dev.ActionInterface;
 import org.ev3dev.software.jEv3Dev.actions.Action;
 
 public abstract class Block  extends UIObjectBase{
+	
+	private List<Parameter> parameters;
 	
 	public static final int PARAMETER_WIDTH = 30;
 	
@@ -48,9 +52,22 @@ public abstract class Block  extends UIObjectBase{
 	public Block(int width, int height) {
 		super(width, height);
 		
-		for (int i = 0; i < getParametersNames().length; i++){
-			width += PARAMETER_WIDTH + PARAMETERS_SPACE;
+		if (getParameters().length != 0){
+			width = 0;
+			for (Parameter pm : getParameters()){
+				if (pm.isUIReadable()){
+					width += PARAMETERS_SPACE + PARAMETER_WIDTH;
+				}
+				
+				if (pm.isUIWritable()){
+					width += PARAMETERS_SPACE + PARAMETER_WIDTH;
+				}
+			}
+			
+			width += PARAMETERS_SPACE;
 		}
+		
+		parameters = new ArrayList<Parameter>(50);
 		
 		setWidth(width);
 	}
@@ -65,9 +82,22 @@ public abstract class Block  extends UIObjectBase{
 		
 		int width = DEFAULT_WIDTH;
 		
-		for (int i = 0; i < getParametersNames().length; i++){
-			width += PARAMETER_WIDTH + PARAMETERS_SPACE;
+		if (getParameters().length != 0){
+			width = 0;
+			for (Parameter pm : getParameters()){
+				if (pm.isUIReadable()){
+					width += PARAMETERS_SPACE + PARAMETER_WIDTH;
+				}
+				
+				if (pm.isUIWritable()){
+					width += PARAMETERS_SPACE + PARAMETER_WIDTH;
+				}
+			}
+			
+			width += PARAMETERS_SPACE;
 		}
+		
+		parameters = new ArrayList<Parameter>(50);
 		
 		setWidth(width);
 	}
@@ -148,20 +178,24 @@ public abstract class Block  extends UIObjectBase{
 		return false;
 	}
 	
-	public void setParameter(int parameter, Object value){
-		
-	};
-	
-	public Object getParameter(int parameter){
-		return null;
+	public final void addParameter(Parameter pm){
+		parameters.add(pm);
 	}
 	
-	public String[] getParametersNames(){
-		return new String[]{};
+	public final Parameter getParameter(int parameter){
+		return parameters.get(parameter);
 	}
 	
-	public Class<?>[] getParametersTypes(){
-		return new Class<?>[]{};
+	public final Parameter[] getParameters(){
+		Parameter[] pms = new Parameter[parameters.size()];
+		for (int i = 0; i < parameters.size(); i++){
+			pms[i] = (Parameter) parameters.get(i);
+		}
+		return pms;
+	}
+	
+	public final void setParameterValue(int parameter, Object value){
+		parameters.get(parameter).setValue(value);
 	}
 	
 //Default draw
@@ -188,7 +222,8 @@ public abstract class Block  extends UIObjectBase{
 		
 		int width = getWidth();
 		
-		
+		System.out.println("Width: " + width);
+		System.out.println("FilRoundRect: " + x + ", " + y + " HEIGHT: " + DEFAULT_HEIGHT);
 		
 		g.setColor(color);
 		g.fillRoundRect(x, y, width, DEFAULT_HEIGHT, 20, DEFAULT_HEIGHT);
@@ -196,13 +231,28 @@ public abstract class Block  extends UIObjectBase{
 		g.setColor(new Color(242, 242, 242));
 		g.fillRoundRect(x, y + 20, width, DEFAULT_HEIGHT - 10, 20, DEFAULT_HEIGHT);
 		
+		System.out.println("AnotherRoundRect: " + (DEFAULT_HEIGHT - 10));
+		
 		g.fillRect(x, y + 20, width, DEFAULT_HEIGHT - 30);
 		
-		for (int i = 0; i < getParametersNames().length; i++){
-			g.setColor(Color.DARK_GRAY);
-			g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 70, 30, 30);
-			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 2, y + 72, 27, 28);
+		
+		Parameter pm;
+		for (int i = 0; i < getParameters().length; i++){
+			pm = getParameter(i);
+			
+			if (pm.isUIReadable()){
+				g.setColor(Color.DARK_GRAY);
+				g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 70, 30, 30);
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 2, y + 72, 27, 28);
+			}
+			
+			if (pm.isUIWritable()){
+				g.setColor(Color.DARK_GRAY);
+				g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 70, 30, 30);
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 2, y + 72, 27, 28);
+			}
 		}
 		
 		Graphics2D g2 = (Graphics2D) g;

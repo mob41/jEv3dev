@@ -17,6 +17,7 @@ public abstract class UIObjectBase implements UIObject{
 	private int height;
 	
 	public UIObjectBase(int width, int height){
+		System.out.println("Width: " + width + " Height: " + height);
 		this.width = width;
 		this.height = height;
 	}
