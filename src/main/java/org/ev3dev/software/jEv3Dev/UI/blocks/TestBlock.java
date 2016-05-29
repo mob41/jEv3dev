@@ -14,8 +14,13 @@ public class TestBlock extends Block {
 		super();
 		this.color = color;
 		
-		Parameter<Integer> pm = new Parameter<Integer>("Name", 3);
-		addParameter(pm);
+		Parameter<Integer> pm1 = new Parameter<Integer>("Name", 3);
+		pm1.setReadOrWrite(Parameter.READ);
+		addParameter(pm1);
+		
+		Parameter<String> pm2 = new Parameter<String>("Name", "Stasdasrg");
+		pm2.setReadOrWrite(Parameter.WRITE);
+		addParameter(pm2);
 	}
 
 	public boolean onMouseTouch() {

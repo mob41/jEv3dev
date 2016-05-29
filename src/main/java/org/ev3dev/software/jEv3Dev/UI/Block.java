@@ -220,6 +220,9 @@ public abstract class Block  extends UIObjectBase{
 		if (this.g == null){
 			this.g = g;
 		}
+		
+		Graphics2D g2 = (Graphics2D) g;
+		
 		int x = getLeftX();
 		int y = getUpY();
 		
@@ -228,26 +231,78 @@ public abstract class Block  extends UIObjectBase{
 		System.out.println("Width: " + width);
 		System.out.println("FilRoundRect: " + x + ", " + y + " HEIGHT: " + DEFAULT_HEIGHT);
 		
-		g.setColor(color);
-		g.fillRoundRect(x, y, width, DEFAULT_HEIGHT, 20, DEFAULT_HEIGHT);
+		g2.setColor(color);
+		g2.fillRoundRect(x, y, width, DEFAULT_HEIGHT, 20, DEFAULT_HEIGHT);
 		
-		g.setColor(new Color(242, 242, 242));
-		g.fillRoundRect(x, y + 20, width, DEFAULT_HEIGHT - 10, 20, DEFAULT_HEIGHT);
+		g2.setColor(new Color(242, 242, 242));
+		g2.fillRoundRect(x, y + 20, width, DEFAULT_HEIGHT - 10, 20, DEFAULT_HEIGHT);
 		
 		System.out.println("AnotherRoundRect: " + (DEFAULT_HEIGHT - 10));
 		
-		g.fillRect(x, y + 20, width, DEFAULT_HEIGHT - 30);
+		g2.fillRect(x, y + 20, width, DEFAULT_HEIGHT - 30);
 		
+		Parameter<?> pm;
 		for (int i = 0; i < getParameters().length; i++){
+			pm = getParameters()[i];
 			
-			g.setColor(Color.DARK_GRAY);
-			g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 70, 30, 30);
-			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 2, y + 72, 27, 28);
+			switch (pm.isReadOrWrite()){
+			case Parameter.READ:
+				g2.setColor(Color.DARK_GRAY);
+				
+				g2.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 80, 30, 20);
+				g2.fillRect(
+						x + (PARAMETERS_SPACE * (i + 1)) +
+						(PARAMETER_WIDTH * i) + (PARAMETER_WIDTH / 2)
+						, y + 72, 10, 10);
+				
+				g2.setColor(Color.LIGHT_GRAY);
+				
+				g2.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 2, y + 82, 27, 18);
+				g2.fillRect(
+						x + (PARAMETERS_SPACE * (i + 1)) +
+						(PARAMETER_WIDTH * i) + (PARAMETER_WIDTH / 2)
+						, y + 74, 7, 8);
+				break;
+			case Parameter.WRITE:
+				g2.setColor(Color.LIGHT_GRAY);
+				
+				g2.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 80, 30, 20);
+				g2.fillRect(
+						x + (PARAMETERS_SPACE * (i + 1)) +
+						(PARAMETER_WIDTH * i) + (PARAMETER_WIDTH / 2)
+						, y + 97, 10, 10);
+				
+				g2.setColor(new Color(246, 246, 246));
+				
+				g2.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 1, y + 81, 28, 18);
+				g2.fillRect(
+						x + (PARAMETERS_SPACE * (i + 1)) +
+						(PARAMETER_WIDTH * i) + (PARAMETER_WIDTH / 2) + 3
+						, y + 97, 6, 9);
+				
+				break;
+			}
+			g2.setColor(Color.RED);
+			Object value = pm.getValue();
+			String display = "!gen";
+			
+			if (value instanceof Integer){
+				value = Integer.toString((Integer) value);
+			}
+			
+			if (value instanceof String){
+				g2.setColor(Color.BLACK);
+				display = (String) value;
+				if (display.length() > 4){
+					display = display.substring(0, 3);
+					display += "..";
+				}
+			}
+			
+			g2.drawString(display, x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 3, y + 92);
 			
 		}
 		
-		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.BLUE);
 		g2.drawString(getName(), x + 10, y + 13);
 		

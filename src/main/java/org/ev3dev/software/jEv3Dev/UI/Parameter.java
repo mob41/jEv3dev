@@ -4,9 +4,9 @@ public class Parameter<T> implements ParameterInterface {
 	
 	public static final int READ = 0;
 	
-	public static final int WRITE = 0;
+	public static final int WRITE = 1;
 	
-	public int readOrWrite;
+	public int readOrWrite = READ;
 	
 	public String name;
 	
@@ -33,4 +33,7 @@ public class Parameter<T> implements ParameterInterface {
 		return readOrWrite;
 	}
 
+	public void setReadOrWrite(int field){
+		this.readOrWrite = field;
+	}
 }
