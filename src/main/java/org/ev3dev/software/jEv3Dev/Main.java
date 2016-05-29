@@ -18,8 +18,6 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		BlocksLoader.init(500);
-		
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
 				UI window = new UI();

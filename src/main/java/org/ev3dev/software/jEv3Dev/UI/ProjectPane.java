@@ -26,6 +26,8 @@ import javax.swing.event.PopupMenuListener;
 
 public class ProjectPane extends JDesktopPane {
 
+	protected BlocksLoader blocksLoader;
+	
 	private JScrollPane blocksScroll;
 	private BlocksVas blocksVas;
 	private JWindow window;
@@ -39,6 +41,9 @@ public class ProjectPane extends JDesktopPane {
 	 */
 	public ProjectPane(UI uiframe) {
 		this.ui = uiframe;
+		
+		blocksLoader = new BlocksLoader(500);
+		
 		JSplitPane split1 = new JSplitPane();
 		split1.setResizeWeight(0.9);
 		
@@ -50,7 +55,7 @@ public class ProjectPane extends JDesktopPane {
 		blocksScroll = new JScrollPane();
 		split2.setLeftComponent(blocksScroll);
 		
-		blocksVas = new BlocksVas(ui);
+		blocksVas = new BlocksVas(ui, blocksLoader);
 		blocksScroll.setViewportView(blocksVas);
 		
 		JPopupMenu popupMenu = new JPopupMenu();
@@ -80,10 +85,10 @@ public class ProjectPane extends JDesktopPane {
 					return;
 				}
 				
-				Block block = BlocksLoader.getBlocksLoader().getBlockAtPosition(pos);
+				Block block = blocksLoader.getBlockAtPosition(pos);
 				
 				if (block != null){
-					BlocksLoader.getBlocksLoader().removeBlock(block);
+					blocksLoader.removeBlock(block);
 				} else {
 					System.err.println("No block is there!");
 				}
@@ -107,11 +112,11 @@ public class ProjectPane extends JDesktopPane {
 		blocksVas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BlocksLoader.getBlocksLoader().onMouseClickCheckAll(getMousePosition());
+				blocksLoader.onMouseClickCheckAll(getMousePosition());
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				Block block = BlocksLoader.getBlocksLoader().onMousePressCheckAll(getMousePosition());
+				Block block = blocksLoader.onMousePressCheckAll(getMousePosition());
 				
 				if (block != null && e.getButton() == -5){
 					BlockInfo info = new BlockInfo(block);
@@ -126,7 +131,7 @@ public class ProjectPane extends JDesktopPane {
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
 				ui.lblXY.setText("X: " + arg0.getPoint().x + " Y: " + arg0.getPoint().y);
-				Block block = BlocksLoader.getBlocksLoader().onMouseTouchCheckAll(arg0.getPoint());
+				Block block = blocksLoader.onMouseTouchCheckAll(arg0.getPoint());
 				
 				
 				if (block == null || (block != null && oldBlock != null && !block.equals(oldBlock))){

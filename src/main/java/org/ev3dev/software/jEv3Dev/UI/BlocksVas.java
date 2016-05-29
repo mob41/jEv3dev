@@ -30,13 +30,17 @@ public class BlocksVas extends JPanel {
 	
 	private UI uiframe;
 	
+	private BlocksLoader loader;
+	
 	private BufferedImage railImage;
 
 	/**
 	 * Create the panel.
 	 */
-	public BlocksVas(UI uiframe) {
+	public BlocksVas(UI uiframe, BlocksLoader loader) {
 		this.uiframe = uiframe;
+		this.loader = loader;
+		
 		setBackground(Color.WHITE);
 		setSize(default_width, default_height);
 		setLayout(null);
@@ -44,7 +48,6 @@ public class BlocksVas extends JPanel {
 		currWidth = default_width;
 		currHeight = default_height * 3;
 		
-		BlocksLoader loader = BlocksLoader.getBlocksLoader();
 		
 		Rail rail = new Rail();
 		rail.setPos(new Point(80, currHeight / 2));
@@ -61,8 +64,6 @@ public class BlocksVas extends JPanel {
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		
-		BlocksLoader loader = BlocksLoader.getBlocksLoader();
 		
 		if (loader.getNextBlockPos().x >= currWidth){
 			currWidth += default_width;

@@ -31,6 +31,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JPopupMenu;
@@ -44,10 +45,10 @@ import javax.swing.JToolBar;
 public class UI extends JFrame {
 
 	private JPanel contentPane;
-	protected ProjectPane mainDesk;
 	
 	//For debug purpose, only
 	protected JLabel lblXY;
+	private JTabbedPane tab;
 
 	/**
 	 * Create the frame.
@@ -63,8 +64,43 @@ public class UI extends JFrame {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
+		JMenuItem mntmNewProject = new JMenuItem("New Project");
+		mntmNewProject.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ProjectPane projectPane = new ProjectPane(UI.this);
+				
+				tab.addTab("*New Project " + (tab.getTabCount() + 1), projectPane);
+				tab.setSelectedIndex(tab.getTabCount() - 1);
+			}
+		});
+		mnFile.add(mntmNewProject);
+		
+		JMenuItem mntmCloseProject = new JMenuItem("Close Project");
+		mntmCloseProject.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = tab.getSelectedIndex();
+				
+				if (index == -1){
+					JOptionPane.showMessageDialog(UI.this, "No project is selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				tab.remove(index);
+			}
+		});
+		mnFile.add(mntmCloseProject);
+		
+		JSeparator separator_1 = new JSeparator();
+		mnFile.add(separator_1);
+		
+		JMenuItem mntmSaveProject = new JMenuItem("Save Project");
+		mnFile.add(mntmSaveProject);
+		
 		JMenuItem mntmLoadProject = new JMenuItem("Load Project");
 		mnFile.add(mntmLoadProject);
+		
+		JSeparator separator_2 = new JSeparator();
+		mnFile.add(separator_2);
 		
 		JMenuItem mntmDeployProject = new JMenuItem("Deploy Project");
 		mnFile.add(mntmDeployProject);
@@ -90,28 +126,49 @@ public class UI extends JFrame {
 		
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-				
-				JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-				contentPane.add(tabbedPane, BorderLayout.CENTER);
-				
-				mainDesk = new ProjectPane(this);
-				tabbedPane.addTab("*New Project", null, mainDesk, null);
-				mainDesk.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
-
-				JToolBar toolBar = new JToolBar();
-				toolBar.setFloatable(false);
-				contentPane.add(toolBar, BorderLayout.SOUTH);
-				
-				lblXY = new JLabel("X: --- Y: ---");
-				toolBar.add(lblXY);
+		
+		tab = new JTabbedPane(JTabbedPane.TOP);
+		contentPane.add(tab, BorderLayout.CENTER);
+		
+		ProjectPane projectPane = new ProjectPane(this);
+		tab.addTab("*New Project 1", null, projectPane, null);
+		
+		JToolBar toolBar = new JToolBar();
+		toolBar.setFloatable(false);
+		contentPane.add(toolBar, BorderLayout.SOUTH);
+		
+		lblXY = new JLabel("X: --- Y: ---");
+		toolBar.add(lblXY);
 	}
 	
 	protected BlocksVas getBlocksCanvas(){
-		return mainDesk.getBlocksCanvas();
+		ProjectPane projectPane = getSelectedProjectPane();
+		
+		if (projectPane == null){
+			return null;
+		}
+		
+		return projectPane.getBlocksCanvas();
 	}
 	
 	protected JScrollPane getBlocksScroll(){
-		return mainDesk.getBlocksScrollPane();
+		ProjectPane projectPane = getSelectedProjectPane();
+		
+		if (projectPane == null){
+			return null;
+		}
+		
+		return projectPane.getBlocksScrollPane();
+	}
+	
+	protected ProjectPane getSelectedProjectPane(){
+		ProjectPane projectPane = (ProjectPane) tab.getSelectedComponent();
+		
+		if (projectPane == null){
+			return null;
+		}
+		
+		return projectPane;
 	}
 	
 }

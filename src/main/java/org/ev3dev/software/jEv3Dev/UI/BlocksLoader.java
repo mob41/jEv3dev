@@ -17,15 +17,6 @@ public class BlocksLoader {
 		blocks = new ArrayList<Block>(maxblocks);
 	}
 	
-	public static BlocksLoader init(int maxblocks){
-		blocksLoader = new BlocksLoader(maxblocks);
-		return blocksLoader;
-	}
-	
-	public static BlocksLoader getBlocksLoader(){
-		return blocksLoader;
-	}
-	
 	public void drawAll(Graphics g){
 		for (Block block : blocks){
 			block.drawThis(g);

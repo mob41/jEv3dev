@@ -35,17 +35,17 @@ public class BlocksPane extends JPanel {
 		lblTestItem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				Point nextPos = BlocksLoader.getBlocksLoader().getNextBlockPos();
+				Point nextPos = ui.getSelectedProjectPane().blocksLoader.getNextBlockPos();
 				TestBlock testBlock = new TestBlock(Color.GREEN);
 				
 				if (arg0.getButton() == MouseEvent.BUTTON3){
 					BlockInfo info = new BlockInfo(testBlock);
-					frame.mainDesk.add(info);
+					frame.getSelectedProjectPane().add(info);
 					info.setVisible(true);
 					return;
 				}
 				
-				BlocksLoader.getBlocksLoader().addBlock(testBlock);
+				ui.getSelectedProjectPane().blocksLoader.addBlock(testBlock);
 				
 				ui.getBlocksCanvas().repaint();
 			}
@@ -59,12 +59,12 @@ public class BlocksPane extends JPanel {
 				
 				if (arg0.getButton() == MouseEvent.BUTTON3){
 					BlockInfo info = new BlockInfo(testBlock);
-					frame.mainDesk.add(info);
+					frame.getSelectedProjectPane().add(info);
 					info.setVisible(true);
 					return;
 				}
 				
-				BlocksLoader.getBlocksLoader().addBlock(testBlock);
+				ui.getSelectedProjectPane().blocksLoader.addBlock(testBlock);
 				
 				ui.getBlocksCanvas().repaint();
 				
