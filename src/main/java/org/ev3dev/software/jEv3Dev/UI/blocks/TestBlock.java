@@ -14,12 +14,7 @@ public class TestBlock extends Block {
 		super();
 		this.color = color;
 		
-		Parameter pm = new Parameter("Name", Integer.class, 1){
-			@Override
-			public boolean isUIReadable(){
-				return true;
-			}
-		};
+		Parameter<Integer> pm = new Parameter<Integer>("Name", 3);
 		addParameter(pm);
 	}
 

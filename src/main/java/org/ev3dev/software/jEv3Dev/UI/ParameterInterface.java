@@ -4,7 +4,7 @@ public interface ParameterInterface {
 
 	public String getName();
 	
-	public Class<?> getParameterType();
-	
 	public Object getValue();
+	
+	public int isReadOrWrite();
 }

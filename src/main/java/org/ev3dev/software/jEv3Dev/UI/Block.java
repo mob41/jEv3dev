@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import org.ev3dev.software.jEv3Dev.actions.Action;
 
 public abstract class Block  extends UIObjectBase{
 	
-	private List<Parameter> parameters;
+	private List<Parameter> parameters = new ArrayList<Parameter>(50);
 	
 	public static final int PARAMETER_WIDTH = 30;
 	
@@ -55,19 +56,11 @@ public abstract class Block  extends UIObjectBase{
 		if (getParameters().length != 0){
 			width = 0;
 			for (Parameter pm : getParameters()){
-				if (pm.isUIReadable()){
-					width += PARAMETERS_SPACE + PARAMETER_WIDTH;
-				}
-				
-				if (pm.isUIWritable()){
-					width += PARAMETERS_SPACE + PARAMETER_WIDTH;
-				}
+				width += PARAMETERS_SPACE + PARAMETER_WIDTH;
 			}
 			
 			width += PARAMETERS_SPACE;
 		}
-		
-		parameters = new ArrayList<Parameter>(50);
 		
 		setWidth(width);
 	}
@@ -85,13 +78,7 @@ public abstract class Block  extends UIObjectBase{
 		if (getParameters().length != 0){
 			width = 0;
 			for (Parameter pm : getParameters()){
-				if (pm.isUIReadable()){
-					width += PARAMETERS_SPACE + PARAMETER_WIDTH;
-				}
-				
-				if (pm.isUIWritable()){
-					width += PARAMETERS_SPACE + PARAMETER_WIDTH;
-				}
+				width += PARAMETERS_SPACE + PARAMETER_WIDTH;
 			}
 			
 			width += PARAMETERS_SPACE;
@@ -180,6 +167,22 @@ public abstract class Block  extends UIObjectBase{
 	
 	public final void addParameter(Parameter pm){
 		parameters.add(pm);
+		
+		int width = DEFAULT_WIDTH;
+		if (getParameters().length != 0){
+			width = 0;
+			for (Parameter parameter : getParameters()){
+				width += PARAMETERS_SPACE + PARAMETER_WIDTH;
+			}
+			
+			width += PARAMETERS_SPACE;
+		}
+		
+		setWidth(width);
+	}
+	
+	public final void removeParameter(int parameter){
+		parameters.remove(parameter);
 	}
 	
 	public final Parameter getParameter(int parameter){
@@ -235,30 +238,30 @@ public abstract class Block  extends UIObjectBase{
 		
 		g.fillRect(x, y + 20, width, DEFAULT_HEIGHT - 30);
 		
-		
-		Parameter pm;
 		for (int i = 0; i < getParameters().length; i++){
-			pm = getParameter(i);
 			
-			if (pm.isUIReadable()){
-				g.setColor(Color.DARK_GRAY);
-				g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 70, 30, 30);
-				g.setColor(Color.LIGHT_GRAY);
-				g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 2, y + 72, 27, 28);
-			}
+			g.setColor(Color.DARK_GRAY);
+			g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 70, 30, 30);
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 2, y + 72, 27, 28);
 			
-			if (pm.isUIWritable()){
-				g.setColor(Color.DARK_GRAY);
-				g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 70, 30, 30);
-				g.setColor(Color.LIGHT_GRAY);
-				g.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 2, y + 72, 27, 28);
-			}
 		}
 		
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.BLUE);
 		g2.drawString(getName(), x + 10, y + 13);
 		
-		g2.drawImage(getIcon(), x + 10, y + 20, null);
+		g2.drawImage(getIcon(), x + 1, y + 20, null);
+	}
+	
+	public static BufferedImage scale(BufferedImage sbi, int imageType, int dWidth, int dHeight, double fWidth, double fHeight) {
+	    BufferedImage dbi = null;
+	    if(sbi != null) {
+	        dbi = new BufferedImage(dWidth, dHeight, imageType);
+	        Graphics2D g = dbi.createGraphics();
+	        AffineTransform at = AffineTransform.getScaleInstance(fWidth, fHeight);
+	        g.drawRenderedImage(sbi, at);
+	    }
+	    return dbi;
 	}
 }
