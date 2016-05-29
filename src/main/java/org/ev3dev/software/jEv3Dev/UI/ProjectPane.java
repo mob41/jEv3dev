@@ -191,14 +191,29 @@ public class ProjectPane extends JDesktopPane {
 				if (oldDraggingBlock != null){
 					System.out.println("Not null");
 					if (block.getShortName().equals("blocksRail")){
-						if (block.getWidth() < block.getWidth() + block.getRightX() - pos.getX()){
+						System.out.println("--BlockWidth: " + block.getWidth());
+						System.out.println("Width/3: " + block.getWidth() / 3);
+						System.out.println("--PosX: " + pos.getX());
+						System.out.println("--LeftX: " + block.getLeftX());
+						System.out.println("--PosXSubLeftX: " + (pos.getX() - block.getLeftX()));
+						System.out.println("Sub/2: " + (pos.getX() - block.getLeftX()) / 2);
+						System.out.print("Sub/2BiggerThanWidth/3? ");
+						
+						if (block.getWidth() / 3 <= pos.getX() - block.getLeftX()){
+							System.out.println("Yes!");
 							System.out.println("Inserting block");
 							Rail rail = new Rail(false, true);
 							blocksLoader.insertBlock(block, rail);
-							oldDraggingBlock = null;
 						} else if (block.getWidth() > pos.getX() - block.getRightX()){
-							blocksLoader.removeBlock(block);
+							System.out.println("No, But BlockWidth is bigger than PosX-RightX");
+							blocksLoader.blocks.remove(block);
+							System.out.println("!!Removed block");
+						} else {
+							System.out.println("No, ending.");
 						}
+						
+						oldDraggingBlock = null;
+						System.out.println("Repainting");
 						blocksVas.repaint();
 						return;
 					}
@@ -210,7 +225,6 @@ public class ProjectPane extends JDesktopPane {
 				} else {
 					oldDraggingBlock = null;
 				}
-				
 				blocksVas.repaint();
 			}
 		});
