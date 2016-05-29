@@ -195,7 +195,10 @@ public class ProjectPane extends JDesktopPane {
 							System.out.println("Inserting block");
 							Rail rail = new Rail(false, true);
 							blocksLoader.insertBlock(block, rail);
-						} 
+							oldDraggingBlock = null;
+						} else if (block.getWidth() > pos.getX() - block.getRightX()){
+							blocksLoader.removeBlock(block);
+						}
 						blocksVas.repaint();
 						return;
 					}

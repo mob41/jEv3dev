@@ -36,12 +36,8 @@ public class BlocksLoader {
 	}
 	
 	public Point getAfterBlockPos(Block block, int height){
-		System.out.println("AfterBlock: " + block.getName());
-		System.out.println("Location: " + block.getUpRightPos());
 		int x = block.getRightX();
-		System.out.println("X: " + x);
 		int cy = (int) ((double) (block.getUpY() + block.getDownY()) / (double) 2);
-		System.out.println("point: (" + x + ", " + (cy - (height/ 2)) + ")");
 		return new Point(x, cy - (height / 2));
 	}
 	
@@ -69,15 +65,12 @@ public class BlocksLoader {
 			System.err.println("No such block!");
 			return;
 		}
-		System.out.println("Insert block to index: " + index );
 		insertBlock(index + 1, newBlock);
 	}
 	
 	public void insertBlock(int index, Block block){
 		Block anotherBlock = blocks.get(index - 1);
-		System.out.println("AnotherBlock: " + anotherBlock.getRightX());
 		Point pos = getAfterBlockPos(anotherBlock, block.getHeight());
-		System.out.println("NewPOS: " + pos);
 		block.setPos(pos);
 		
 		blocks.add(index, block);
