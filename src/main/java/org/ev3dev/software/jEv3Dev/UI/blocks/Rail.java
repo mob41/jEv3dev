@@ -84,24 +84,6 @@ public class Rail extends Block{
 	public String getShortName(){
 		return "blocksRail";
 	}
-
-	public boolean onMouseTouch() {
-		System.out.println("Mouse touched rail");
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean onMouseClick() {
-		System.out.println("Mouse clicked rail");
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean onMousePress() {
-		System.out.println("Mouse pressed rail");
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	public void drawHead(Graphics g){
 		int x = getLeftX();
@@ -128,5 +110,20 @@ public class Rail extends Block{
 			g.fillArc(nx, y, width, height, 90, -180);
 			break;
 		}
+	}
+
+	public boolean onMouseTouch() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean onMouseClick() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean onMousePress() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
