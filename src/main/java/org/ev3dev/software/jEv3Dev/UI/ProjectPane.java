@@ -40,6 +40,7 @@ public class ProjectPane extends JDesktopPane {
 	 * Create the panel.
 	 */
 	public ProjectPane(UI uiframe) {
+		setBounds(0, 0, 1254, 650);
 		this.ui = uiframe;
 		
 		blocksLoader = new BlocksLoader(500);

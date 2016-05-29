@@ -49,6 +49,7 @@ public class UI extends JFrame {
 	//For debug purpose, only
 	protected JLabel lblXY;
 	private JTabbedPane tab;
+	private JPanel mainPane;
 
 	/**
 	 * Create the frame.
@@ -86,6 +87,13 @@ public class UI extends JFrame {
 				}
 				
 				tab.remove(index);
+				
+				if (tab.getTabCount() == 0){
+					mainPane.setVisible(false);
+					GettingStartedPanel gettingStarted = new GettingStartedPanel(UI.this);
+					contentPane.add(gettingStarted);
+					gettingStarted.setVisible(true);
+				}
 			}
 		});
 		mnFile.add(mntmCloseProject);
@@ -127,18 +135,27 @@ public class UI extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
+		mainPane = new JPanel();
+		contentPane.add(mainPane, BorderLayout.CENTER);
+		mainPane.setLayout(new BorderLayout(0, 0));
+		
 		tab = new JTabbedPane(JTabbedPane.TOP);
-		contentPane.add(tab, BorderLayout.CENTER);
+		mainPane.add(tab);
 		
 		ProjectPane projectPane = new ProjectPane(this);
 		tab.addTab("*New Project 1", null, projectPane, null);
 		
 		JToolBar toolBar = new JToolBar();
+		mainPane.add(toolBar, BorderLayout.SOUTH);
 		toolBar.setFloatable(false);
-		contentPane.add(toolBar, BorderLayout.SOUTH);
 		
 		lblXY = new JLabel("X: --- Y: ---");
 		toolBar.add(lblXY);
+
+	}
+	
+	protected JPanel getMainPanel(){
+		return mainPane;
 	}
 	
 	protected BlocksVas getBlocksCanvas(){
@@ -149,6 +166,10 @@ public class UI extends JFrame {
 		}
 		
 		return projectPane.getBlocksCanvas();
+	}
+	
+	protected JTabbedPane getTabbedPane(){
+		return tab;
 	}
 	
 	protected JScrollPane getBlocksScroll(){
