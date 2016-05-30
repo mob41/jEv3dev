@@ -19,10 +19,6 @@ public abstract class Block  extends UIObjectBase{
 	
 	private List<Parameter> parameters = new ArrayList<Parameter>(50);
 	
-	public static final int PARAMETER_WIDTH = 30;
-	
-	public static final int PARAMETERS_SPACE = 10;
-	
 	public static final int DEFAULT_WIDTH = 180;
 	
 	public static final int DEFAULT_HEIGHT = 90;
@@ -56,10 +52,10 @@ public abstract class Block  extends UIObjectBase{
 		if (getParameters().length != 0){
 			width = 0;
 			for (Parameter pm : getParameters()){
-				width += PARAMETERS_SPACE + PARAMETER_WIDTH;
+				width += Parameter.PARAMETERS_SPACE + Parameter.PARAMETER_WIDTH;
 			}
 			
-			width += PARAMETERS_SPACE;
+			width += Parameter.PARAMETERS_SPACE;
 		}
 		
 		setWidth(width);
@@ -78,10 +74,10 @@ public abstract class Block  extends UIObjectBase{
 		if (getParameters().length != 0){
 			width = 0;
 			for (Parameter pm : getParameters()){
-				width += PARAMETERS_SPACE + PARAMETER_WIDTH;
+				width += Parameter.PARAMETERS_SPACE + Parameter.PARAMETER_WIDTH;
 			}
 			
-			width += PARAMETERS_SPACE;
+			width += Parameter.PARAMETERS_SPACE;
 		}
 		
 		parameters = new ArrayList<Parameter>(50);
@@ -172,10 +168,10 @@ public abstract class Block  extends UIObjectBase{
 		if (getParameters().length != 0){
 			width = 0;
 			for (Parameter parameter : getParameters()){
-				width += PARAMETERS_SPACE + PARAMETER_WIDTH;
+				width += Parameter.PARAMETERS_SPACE + Parameter.PARAMETER_WIDTH;
 			}
 			
-			width += PARAMETERS_SPACE;
+			width += Parameter.PARAMETERS_SPACE;
 		}
 		
 		setWidth(width);
@@ -245,39 +241,39 @@ public abstract class Block  extends UIObjectBase{
 		for (int i = 0; i < getParameters().length; i++){
 			pm = getParameters()[i];
 			
-			switch (pm.isReadOrWrite()){
-			case Parameter.READ:
+			switch (pm.isInOrOut()){
+			case Parameter.IN:
 				g2.setColor(Color.DARK_GRAY);
 				
-				g2.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 80, 30, 20);
+				g2.fillRect(x + (Parameter.PARAMETERS_SPACE * (i + 1)) + (Parameter.PARAMETER_WIDTH * i), y + 80, 30, 20);
 				g2.fillRect(
-						x + (PARAMETERS_SPACE * (i + 1)) +
-						(PARAMETER_WIDTH * i) + (PARAMETER_WIDTH / 2)
+						x + (Parameter.PARAMETERS_SPACE * (i + 1)) +
+						(Parameter.PARAMETER_WIDTH * i) + (Parameter.PARAMETER_WIDTH / 2)
 						, y + 72, 10, 10);
 				
 				g2.setColor(Color.LIGHT_GRAY);
 				
-				g2.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 2, y + 82, 27, 18);
+				g2.fillRect(x + (Parameter.PARAMETERS_SPACE * (i + 1)) + (Parameter.PARAMETER_WIDTH * i) + 2, y + 82, 27, 18);
 				g2.fillRect(
-						x + (PARAMETERS_SPACE * (i + 1)) +
-						(PARAMETER_WIDTH * i) + (PARAMETER_WIDTH / 2)
+						x + (Parameter.PARAMETERS_SPACE * (i + 1)) +
+						(Parameter.PARAMETER_WIDTH * i) + (Parameter.PARAMETER_WIDTH / 2)
 						, y + 74, 7, 8);
 				break;
-			case Parameter.WRITE:
+			case Parameter.OUT:
 				g2.setColor(Color.LIGHT_GRAY);
 				
-				g2.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i), y + 80, 30, 20);
+				g2.fillRect(x + (Parameter.PARAMETERS_SPACE * (i + 1)) + (Parameter.PARAMETER_WIDTH * i), y + 80, 30, 20);
 				g2.fillRect(
-						x + (PARAMETERS_SPACE * (i + 1)) +
-						(PARAMETER_WIDTH * i) + (PARAMETER_WIDTH / 2)
+						x + (Parameter.PARAMETERS_SPACE * (i + 1)) +
+						(Parameter.PARAMETER_WIDTH * i) + (Parameter.PARAMETER_WIDTH / 2)
 						, y + 97, 10, 10);
 				
 				g2.setColor(new Color(246, 246, 246));
 				
-				g2.fillRect(x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 1, y + 81, 28, 18);
+				g2.fillRect(x + (Parameter.PARAMETERS_SPACE * (i + 1)) + (Parameter.PARAMETER_WIDTH * i) + 1, y + 81, 28, 18);
 				g2.fillRect(
-						x + (PARAMETERS_SPACE * (i + 1)) +
-						(PARAMETER_WIDTH * i) + (PARAMETER_WIDTH / 2) + 3
+						x + (Parameter.PARAMETERS_SPACE * (i + 1)) +
+						(Parameter.PARAMETER_WIDTH * i) + (Parameter.PARAMETER_WIDTH / 2) + 3
 						, y + 97, 6, 9);
 				
 				break;
@@ -299,7 +295,7 @@ public abstract class Block  extends UIObjectBase{
 				}
 			}
 			
-			g2.drawString(display, x + (PARAMETERS_SPACE * (i + 1)) + (PARAMETER_WIDTH * i) + 3, y + 92);
+			g2.drawString(display, x + (Parameter.PARAMETERS_SPACE * (i + 1)) + (Parameter.PARAMETER_WIDTH * i) + 3, y + 92);
 			
 		}
 		

@@ -41,6 +41,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.JToolBar;
+import java.awt.Toolkit;
 
 public class UI extends JFrame {
 
@@ -55,6 +56,7 @@ public class UI extends JFrame {
 	 * Create the frame.
 	 */
 	public UI() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UI.class.getResource("/org/ev3dev/software/jEv3Dev/UI/resources/iconx125.fw.png")));
 		setTitle("jEv3Dev - New Project");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);

@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import org.ev3dev.software.jEv3Dev.UI.blocks.Motor;
 import org.ev3dev.software.jEv3Dev.UI.blocks.TestBlock;
 
 public class BlocksPane extends JPanel {
@@ -30,12 +31,12 @@ public class BlocksPane extends JPanel {
 		this.ui = frame;
 		
 		JLabel lblTestItem = new JLabel();
-		lblTestItem.setToolTipText("A block");
+		lblTestItem.setToolTipText("A motor");
 		lblTestItem.setIcon(new ImageIcon(BlocksPane.class.getResource("/org/ev3dev/software/jEv3Dev/UI/resources/block.fw.png")));
 		lblTestItem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				TestBlock testBlock = new TestBlock(Color.GREEN);
+				Motor testBlock = new Motor();
 				
 				if (arg0.getButton() == MouseEvent.BUTTON3){
 					BlockInfo info = new BlockInfo(testBlock);

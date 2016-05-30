@@ -2,11 +2,25 @@ package org.ev3dev.software.jEv3Dev.UI;
 
 public class Parameter<T> implements ParameterInterface {
 	
-	public static final int READ = 0;
+	public static final int PARAMETER_WIDTH = 30;
 	
-	public static final int WRITE = 1;
+	public static final int PARAMETERS_SPACE = 10;
 	
-	public int readOrWrite = READ;
+	public static final int IN = 0;
+	
+	public static final int OUT = 1;
+	
+	public int width;
+	
+	public int xleft;
+	
+	public int xright;
+	
+	public int yup;
+	
+	public int ydown;
+	
+	public int readOrWrite = IN;
 	
 	public String name;
 	
@@ -17,23 +31,23 @@ public class Parameter<T> implements ParameterInterface {
 		this.value = value;
 	}
 
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 	
-	public T getValue() {
+	public final T getValue() {
 		return value;
 	}
 	
-	public void setValue(T value){
+	public final void setValue(T value){
 		this.value = value;
 	}
 
-	public int isReadOrWrite() {
+	public final int isInOrOut() {
 		return readOrWrite;
 	}
 
-	public void setReadOrWrite(int field){
+	public void setInOut(int field){
 		this.readOrWrite = field;
 	}
 }

@@ -1,5 +1,7 @@
-# jEv3dev
+# ![icon](http://mob41.github.io/images/icon.fw.png) jEv3dev
 A easy-to-program GUI application for ev3dev beginners. Just use "Blocks" to program.
+
+![snapshot](http://mob41.github.io/images/jEv3Dev_snapshot.PNG)
 
 This program is intended for ev3dev beginners with the goal of easy-to-use.
 

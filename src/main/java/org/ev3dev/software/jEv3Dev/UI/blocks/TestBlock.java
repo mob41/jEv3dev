@@ -15,11 +15,11 @@ public class TestBlock extends Block {
 		this.color = color;
 		
 		Parameter<Integer> pm1 = new Parameter<Integer>("Name", 3);
-		pm1.setReadOrWrite(Parameter.READ);
+		pm1.setInOut(Parameter.IN);
 		addParameter(pm1);
 		
 		Parameter<String> pm2 = new Parameter<String>("Name", "Stasdasrg");
-		pm2.setReadOrWrite(Parameter.WRITE);
+		pm2.setInOut(Parameter.OUT);
 		addParameter(pm2);
 	}
 
