@@ -2,6 +2,7 @@ package org.ev3dev.software.jEv3Dev.UI.blocks;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 import org.ev3dev.software.jEv3Dev.UI.Block;
 import org.ev3dev.software.jEv3Dev.UI.UIObjectBase;
@@ -55,7 +56,7 @@ public class Rail extends Block{
 	}
 	
 	@Override
-	public void drawThis(Graphics g){
+	public void drawThis(Graphics g, Point mousePosition){
 		int x = getLeftX();
 		int y = getUpY();
 		

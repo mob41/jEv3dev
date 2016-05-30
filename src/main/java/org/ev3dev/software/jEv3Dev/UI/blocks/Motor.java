@@ -2,6 +2,7 @@ package org.ev3dev.software.jEv3Dev.UI.blocks;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -42,8 +43,8 @@ public class Motor extends Block {
 	}
 	
 	@Override
-	public void drawThis(Graphics g){
-		super.drawThis(g, color);
+	public void drawThis(Graphics g, Point mousePosition, Color color){
+		super.drawThis(g, mousePosition, color);
 	}
 	
 	@Override
@@ -75,5 +76,4 @@ public class Motor extends Block {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

@@ -2,7 +2,16 @@ package org.ev3dev.software.jEv3Dev.UI;
 
 import java.awt.Point;
 
+/**
+ * A class representing a Object in the canvas.
+ * @author Anthony
+ *
+ */
 public abstract class UIObjectBase implements UIObject{
+	
+	private boolean releasedFromMouse = false;
+	
+	private boolean connectedToRail = false;
 	
 	private int xleft;
 	
@@ -29,6 +38,44 @@ public abstract class UIObjectBase implements UIObject{
 	public void setPos(Point pos){
 		setLeftX(pos.x);
 		setUpY(pos.y);
+	}
+	
+	/**
+	 * <b>This is reserved for UI only. Do not change this value unless you know what are you doing.</b><br>
+	 * <br>
+	 * Indicating whatever this object is released from mouse after dragging
+	 * @param released Is this object released from mouse after dragging
+	 */
+	protected final void setReleasedFromMouse(boolean released){
+		releasedFromMouse = released;
+	}
+	
+	/**
+	 * <b>This is reserved for UI only.</b><br>
+	 * <br>
+	 * Indicating whatever this object is released from mouse after dragging
+	 */
+	protected final boolean isReleasedFromMouse(){
+		return releasedFromMouse;
+	}
+	
+	/**
+	 * <b>This is reserved for UI only. Do not change this value unless you know what are you doing.</b><br>
+	 * <br>
+	 * Indicating whatever this object is connected to the blocks rail
+	 * @param connected Is this object connected to the rail
+	 */
+	protected final void setConnectedToRail(boolean connected){
+		this.connectedToRail = connected;
+	}
+	
+	/**
+	 * <b>This is reserved for UI only.</b><br>
+	 * <br>
+	 * Indicating whatever this object is connected to the blocks rail
+	 */
+	protected final boolean isConnectedToRail(){
+		return connectedToRail;
 	}
 	
 	public void setLeftX(int x){

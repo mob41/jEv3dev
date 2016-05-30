@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -199,8 +200,8 @@ public abstract class Block  extends UIObjectBase{
 	
 //Default draw
 	
-	public void drawThis(Graphics g){
-		drawThis(g, Color.GREEN);
+	public void drawThis(Graphics g, Point mousePosition){
+		drawThis(g, mousePosition, Color.GREEN);
 	}
 	
 	/**
@@ -212,7 +213,7 @@ public abstract class Block  extends UIObjectBase{
 	 * @param g
 	 * @param color
 	 */
-	public void drawThis(Graphics g, Color color){
+	public void drawThis(Graphics g, Point mousePosition, Color color){
 		if (this.g == null){
 			this.g = g;
 		}
@@ -227,6 +228,15 @@ public abstract class Block  extends UIObjectBase{
 		System.out.println("Width: " + width);
 		System.out.println("FilRoundRect: " + x + ", " + y + " HEIGHT: " + DEFAULT_HEIGHT);
 		
+		int alpha = 255;
+		
+		if (!isReleasedFromMouse()){
+			alpha = 127;
+			x = mousePosition.x;
+			y = mousePosition.y;
+		}
+		
+		color = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
 		g2.setColor(color);
 		g2.fillRoundRect(x, y, width, DEFAULT_HEIGHT, 20, DEFAULT_HEIGHT);
 		
@@ -236,7 +246,6 @@ public abstract class Block  extends UIObjectBase{
 		System.out.println("AnotherRoundRect: " + (DEFAULT_HEIGHT - 10));
 		
 		g2.fillRect(x, y + 20, width, DEFAULT_HEIGHT - 30);
-		
 		Parameter<?> pm;
 		for (int i = 0; i < getParameters().length; i++){
 			pm = getParameters()[i];
@@ -282,7 +291,9 @@ public abstract class Block  extends UIObjectBase{
 			Object value = pm.getValue();
 			String display = "!gen";
 			
-			if (value instanceof Integer){
+			if (value instanceof Action){
+				value = ((Action) value).getName();
+			} else if (value instanceof Integer){
 				value = Integer.toString((Integer) value);
 			}
 			

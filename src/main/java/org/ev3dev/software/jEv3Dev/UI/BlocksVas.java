@@ -82,13 +82,17 @@ public class BlocksVas extends JPanel {
 		for (int i = 0; i < loader.blocks.size(); i++){
 			Block block = loader.blocks.get(i);
 			
+			if (!block.isReleasedFromMouse()){
+				//continue;
+			}
+			
 			Point point = new Point(80, currHeight / 2);
 			if (i > 0){
 				point = loader.getAfterBlockPos(loader.blocks.get(i - 1), block.getHeight());
 			}
 			
 			block.setPos(point);
-			block.drawThis(g);
+			block.drawThis(g, this.getMousePosition());
 		}
 	}
 	

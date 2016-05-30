@@ -17,12 +17,6 @@ public class BlocksLoader {
 		blocks = new ArrayList<Block>(maxblocks);
 	}
 	
-	public void drawAll(Graphics g){
-		for (Block block : blocks){
-			block.drawThis(g);
-		}
-	}
-	
 	public Point getNextBlockUpRightPos(){
 		return blocks.get(blocks.size() - 1).getUpRightPos();
 	}
