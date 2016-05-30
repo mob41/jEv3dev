@@ -236,23 +236,22 @@ public abstract class Block  extends UIObjectBase{
 			y = mousePosition.y;
 		}
 		
-		color = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
-		g2.setColor(color);
-		g2.fillRoundRect(x, y, width, DEFAULT_HEIGHT, 20, DEFAULT_HEIGHT);
+		g2.setColor(setAlpha(color, alpha));
+		g2.fillRect(x, y, width, 20);
 		
-		g2.setColor(new Color(242, 242, 242));
-		g2.fillRoundRect(x, y + 20, width, DEFAULT_HEIGHT - 10, 20, DEFAULT_HEIGHT);
+		g2.setColor(new Color(242, 242, 242, alpha));
+		g2.fillRect(x, y + 20, width, DEFAULT_HEIGHT - 20);
 		
 		System.out.println("AnotherRoundRect: " + (DEFAULT_HEIGHT - 10));
 		
-		g2.fillRect(x, y + 20, width, DEFAULT_HEIGHT - 30);
 		Parameter<?> pm;
 		for (int i = 0; i < getParameters().length; i++){
 			pm = getParameters()[i];
 			
 			switch (pm.isInOrOut()){
 			case Parameter.IN:
-				g2.setColor(Color.DARK_GRAY);
+				
+				g2.setColor(setAlpha(Color.DARK_GRAY, alpha));
 				
 				g2.fillRect(x + (Parameter.PARAMETERS_SPACE * (i + 1)) + (Parameter.PARAMETER_WIDTH * i), y + 80, 30, 20);
 				g2.fillRect(
@@ -260,7 +259,7 @@ public abstract class Block  extends UIObjectBase{
 						(Parameter.PARAMETER_WIDTH * i) + (Parameter.PARAMETER_WIDTH / 2)
 						, y + 72, 10, 10);
 				
-				g2.setColor(Color.LIGHT_GRAY);
+				g2.setColor(setAlpha(Color.LIGHT_GRAY, alpha));
 				
 				g2.fillRect(x + (Parameter.PARAMETERS_SPACE * (i + 1)) + (Parameter.PARAMETER_WIDTH * i) + 2, y + 82, 27, 18);
 				g2.fillRect(
@@ -269,7 +268,7 @@ public abstract class Block  extends UIObjectBase{
 						, y + 74, 7, 8);
 				break;
 			case Parameter.OUT:
-				g2.setColor(Color.LIGHT_GRAY);
+				g2.setColor(setAlpha(Color.LIGHT_GRAY, alpha));
 				
 				g2.fillRect(x + (Parameter.PARAMETERS_SPACE * (i + 1)) + (Parameter.PARAMETER_WIDTH * i), y + 80, 30, 20);
 				g2.fillRect(
@@ -277,7 +276,7 @@ public abstract class Block  extends UIObjectBase{
 						(Parameter.PARAMETER_WIDTH * i) + (Parameter.PARAMETER_WIDTH / 2)
 						, y + 97, 10, 10);
 				
-				g2.setColor(new Color(246, 246, 246));
+				g2.setColor(new Color(246, 246, 246, alpha));
 				
 				g2.fillRect(x + (Parameter.PARAMETERS_SPACE * (i + 1)) + (Parameter.PARAMETER_WIDTH * i) + 1, y + 81, 28, 18);
 				g2.fillRect(
@@ -287,7 +286,7 @@ public abstract class Block  extends UIObjectBase{
 				
 				break;
 			}
-			g2.setColor(Color.RED);
+			g2.setColor(setAlpha(Color.RED, alpha));
 			Object value = pm.getValue();
 			String display = "!gen";
 			
@@ -298,7 +297,7 @@ public abstract class Block  extends UIObjectBase{
 			}
 			
 			if (value instanceof String){
-				g2.setColor(Color.BLACK);
+				g2.setColor(setAlpha(Color.BLACK, alpha));
 				display = (String) value;
 				if (display.length() > 4){
 					display = display.substring(0, 3);
@@ -310,10 +309,14 @@ public abstract class Block  extends UIObjectBase{
 			
 		}
 		
-		g2.setColor(Color.BLUE);
+		g2.setColor(setAlpha(Color.BLUE, alpha));
 		g2.drawString(getName(), x + 10, y + 13);
 		
 		g2.drawImage(getIcon(), x + 1, y + 20, null);
+	}
+	
+	private static Color setAlpha(Color color, int alpha){
+		return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
 	}
 	
 }
