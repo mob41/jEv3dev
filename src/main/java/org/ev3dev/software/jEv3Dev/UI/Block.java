@@ -226,9 +226,6 @@ public abstract class Block  extends UIObjectBase{
 		
 		int width = getWidth();
 		
-		System.out.println("Width: " + width);
-		System.out.println("FilRoundRect: " + x + ", " + y + " HEIGHT: " + DEFAULT_HEIGHT);
-		
 		int alpha = 255;
 		
 		if (!isReleasedFromMouse()){
@@ -244,12 +241,10 @@ public abstract class Block  extends UIObjectBase{
 		}
 		
 		g2.setColor(setAlpha(color, alpha));
-		g2.fillRect(x, y, width, 20);
+		g2.fillRect(x, y, width, 10);
 		
 		g2.setColor(new Color(242, 242, 242, alpha));
-		g2.fillRect(x, y + 20, width, DEFAULT_HEIGHT - 20);
-		
-		System.out.println("AnotherRoundRect: " + (DEFAULT_HEIGHT - 10));
+		g2.fillRect(x, y + 10, width, DEFAULT_HEIGHT - 20);
 		
 		Parameter<?> pm;
 		for (int i = 0; i < getParameters().length; i++){

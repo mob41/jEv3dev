@@ -1,11 +1,8 @@
 package org.ev3dev.software.jEv3Dev.UI;
 
-import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.ev3dev.software.jEv3Dev.UI.blocks.Rail;
 
 public class BlocksLoader {
 
@@ -64,11 +61,13 @@ public class BlocksLoader {
 			
 			blocks.add(block);
 			
+			/* Disable this...
 			Point point = getNextBlockPos(Rail.DEFAULT_HEIGHT);
 			Rail rail = new Rail(false, true);
 			rail.setPos(point);
 			
 			blocks.add(rail);
+			*/
 		} else {
 			nonRailBlocks.add(block);
 		}
@@ -105,6 +104,7 @@ public class BlocksLoader {
 		}
 		
 		if (addRails){
+			/* Change this to "AddConnectLines"
 			int width = block.getWidth();
 			int amount = width / Rail.DEFAULT_WIDTH;
 			Point point;
@@ -113,6 +113,7 @@ public class BlocksLoader {
 				rail = new Rail(false, true);
 				insertBlock(i + index, rail);
 			}
+			*/
 		}
 		blocks.remove(block);
 	}

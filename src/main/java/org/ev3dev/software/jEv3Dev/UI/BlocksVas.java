@@ -2,17 +2,14 @@ package org.ev3dev.software.jEv3Dev.UI;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
-import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.ev3dev.software.jEv3Dev.UI.blocks.Rail;
+import org.ev3dev.software.jEv3Dev.UI.blocks.StartBlock;
 
 public class BlocksVas extends JPanel {
 	
@@ -48,22 +45,11 @@ public class BlocksVas extends JPanel {
 		currWidth = default_width;
 		currHeight = default_height * 3;
 		
-		
-		Rail rail = new Rail();
-		rail.setConnectedToRail(true);
-		rail.setReleasedFromMouse(true);
-		rail.setPos(new Point(80, currHeight / 2));
-		loader.blocks.add(rail);
-		
-		Point point;
-		for (int i = 0; i < 1; i++){
-			rail = new Rail(false, true);
-			point = loader.getNextBlockPos(Rail.DEFAULT_HEIGHT);
-			rail.setPos(point);
-			rail.setConnectedToRail(true);
-			rail.setReleasedFromMouse(true);
-			loader.blocks.add(rail);
-		}
+		StartBlock startBlock = new StartBlock();
+		startBlock.setPos(new Point(80, currHeight / 2));
+		startBlock.setConnectedToRail(true);
+		startBlock.setReleasedFromMouse(true);
+		loader.blocks.add(startBlock);
 	}
 
 	/**
@@ -87,7 +73,20 @@ public class BlocksVas extends JPanel {
 			Block block = loader.blocks.get(i);
 			
 			if (!block.isReleasedFromMouse()){
-				System.err.println("!!BUG: Normal Blocks List should not contain NON RELEASED MOUSE FIELDS: " + block.getName());
+				System.err.println("!!BUG: Normal Blocks List should not contain NOT RELEASED MOUSE FIELDS: " + block.getName());
+				loader.blocks.remove(block);
+				JOptionPane.showMessageDialog(uiframe, 
+						"Invalid block detected, and it was cancelled to add to rail.\n" +
+						"It is caused by the block:\n\n" +
+						"Name: " + block.getName() + "\n" +
+						"Author: " + block.getAuthor() + "\n" +
+						"Version: " + block.getVersion() + "\n" +
+						"Position: " + block.getCenteredPos() + "\n\n" +
+						"Error: "
+						+ "The block was trying to render itself in a MouseNotReleased\n"
+						+ " state to a normal block list. Probably it is caused if the\n"
+						+ " developer changed the UI RESERVED values him/herself.", 
+					"Block Rendering Error", JOptionPane.ERROR_MESSAGE);
 				//TODO Throw error. This should not be happen in the normal blocks list.
 			}
 			
@@ -114,6 +113,19 @@ public class BlocksVas extends JPanel {
 			
 			if (block.isReleasedFromMouse()){
 				System.err.println("!!BUG: NON rail Blocks List should not contain RELEASED MOUSE FIELDS: " + block.getName());
+				loader.nonRailBlocks.remove(block);
+				JOptionPane.showMessageDialog(uiframe, 
+						"Invalid block detected, and it was cancelled to add to rail.\n" +
+						"It is caused by the block:\n\n" +
+						"Name: " + block.getName() + "\n" +
+						"Author: " + block.getAuthor() + "\n" +
+						"Version: " + block.getVersion() + "\n" +
+						"Position: " + block.getCenteredPos() + "\n\n" +
+						"Error: "
+						+ "The block was trying to render itself in a MouseReleased\n"
+						+ " state to a non-rail block list. Probably it is caused if the\n"
+						+ " developer changed the UI RESERVED values him/herself.", 
+					"Block Rendering Error", JOptionPane.ERROR_MESSAGE);
 				//TODO Throw error. This should not be happen in the non-rail blocks list.
 			}
 			

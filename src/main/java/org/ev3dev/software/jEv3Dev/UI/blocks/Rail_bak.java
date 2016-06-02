@@ -7,7 +7,7 @@ import java.awt.Point;
 import org.ev3dev.software.jEv3Dev.UI.Block;
 import org.ev3dev.software.jEv3Dev.UI.UIObjectBase;
 
-public class Rail extends Block{
+public class Rail_bak extends Block{
 	
 	public static final int DEFAULT_WIDTH = 30;
 	
@@ -21,14 +21,14 @@ public class Rail extends Block{
 	
 	private boolean hasEnd;
 	
-	public Rail(boolean hasHead, boolean hasEnd){
+	public Rail_bak(boolean hasHead, boolean hasEnd){
 		super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		
 		this.hasHead = hasHead;
 		this.hasEnd = hasEnd;
 	}
 
-	public Rail(){
+	public Rail_bak(){
 		super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		
 		hasHead = true;

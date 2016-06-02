@@ -27,7 +27,6 @@ public abstract class UIObjectBase implements UIObject{
 	private int height;
 	
 	public UIObjectBase(int width, int height){
-		System.out.println("Width: " + width + " Height: " + height);
 		this.width = width;
 		this.height = height;
 	}
@@ -77,6 +76,12 @@ public abstract class UIObjectBase implements UIObject{
 	 */
 	protected final boolean isConnectedToRail(){
 		return connectedToRail;
+	}
+	
+	public Point getCenteredPos(){
+		int cx = (xleft + xright) / 2;
+		int cy = (yup + ydown) / 2;
+		return new Point(cx, cy);
 	}
 	
 	public void setLeftX(int x){

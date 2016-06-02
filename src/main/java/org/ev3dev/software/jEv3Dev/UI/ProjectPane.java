@@ -23,8 +23,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import org.ev3dev.software.jEv3Dev.UI.blocks.Rail;
-
 public class ProjectPane extends JDesktopPane {
 
 	/**
@@ -252,8 +250,9 @@ public class ProjectPane extends JDesktopPane {
 						if (block.getWidth() / 3 <= pos.getX() - block.getLeftX()){
 							System.out.println("Yes!");
 							System.out.println("Inserting block");
-							Rail rail = new Rail(false, true);
-							blocksLoader.insertBlock(block, rail);
+							//TODO Remove this insert block
+							//Rail rail = new Rail(false, true);
+							//blocksLoader.insertBlock(block, rail);
 						} else {
 							System.out.println("No, But BlockWidth is bigger than PosX-RightX");
 							
