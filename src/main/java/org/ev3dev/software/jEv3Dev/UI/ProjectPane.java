@@ -12,15 +12,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JWindow;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
@@ -28,11 +27,15 @@ import org.ev3dev.software.jEv3Dev.UI.blocks.Rail;
 
 public class ProjectPane extends JDesktopPane {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4841366029094480006L;
+
 	protected BlocksLoader blocksLoader;
 	
 	private JScrollPane blocksScroll;
 	private BlocksVas blocksVas;
-	private JWindow window;
 	private JLabel label;
 	private Block oldBlock;
 	private Block oldDraggingBlock;
@@ -219,30 +222,9 @@ public class ProjectPane extends JDesktopPane {
 				ui.lblXY.setText("X: " + arg0.getPoint().x + " Y: " + arg0.getPoint().y);
 				Block block = blocksLoader.onMouseTouchCheckAll(arg0.getPoint());
 				
+				blocksVas.repaint();
 				
-				if (block == null || (block != null && oldBlock != null && !block.equals(oldBlock))){
-					oldBlock = null;
-					if (label != null){
-						blocksVas.remove(label);
-						label = null;
-					}
-					blocksVas.repaint();
-				} else {
-					oldBlock = block;
-					System.out.println("Drawing RECT Height: " + block.getHeight());
-					blocksVas.getGraphics().drawRect(block.getLeftX(), block.getUpY(), block.getWidth(), block.getHeight());
-					
-					if (label == null){
-						label = new JLabel();
-						blocksVas.add(label);
-					}
-					
-					label.setText(block.getName());
-					label.setBounds(arg0.getPoint().x, arg0.getPoint().y, blocksVas.getGraphics().getFontMetrics().stringWidth(label.getText()) + 10, 15);
-					
-					label.setHorizontalAlignment(JLabel.CENTER);
-					label.setVisible(true);
-				}
+				//TODO Do selected via MousePressed and render the rectangle bound via paintComponent in blocksVas
 			}
 			
 			@Override
