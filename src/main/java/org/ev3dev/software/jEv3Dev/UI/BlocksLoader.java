@@ -13,7 +13,10 @@ public class BlocksLoader {
 	
 	public final List<Block> blocks;
 	
+	public final List<Block> nonRailBlocks;
+	
 	public BlocksLoader(int maxblocks){
+		nonRailBlocks = new ArrayList<Block>(maxblocks);
 		blocks = new ArrayList<Block>(maxblocks);
 	}
 	
@@ -35,21 +38,40 @@ public class BlocksLoader {
 		return new Point(x, cy - (height / 2));
 	}
 	
+	/**
+	 * Adds a block that is <b>not connected to the rail</b> to the <code>nonRailBlocks</code> list.<br>
+	 * <br>
+	 * It supposes you that you will <b>change the position</b> of the UI programmatically <b>after this function.</b>
+	 * @param block Block to be added
+	 */
 	public void addBlock(Block block){
-		Block lastBlock = blocks.get(blocks.size() - 1);
-		if (lastBlock.getShortName().equals("blocksRail")){
-			blocks.remove(blocks.size() - 1);
+		addBlock(block, false);
+	}
+	
+	/**
+	 * Adds a block with specifying whether the block is connected to the rail or not.
+	 * @param block Block to be added
+	 * @param connected Whether the block is connected to the rail or not
+	 */
+	public void addBlock(Block block, boolean connected){
+		if (connected){
+			Block lastBlock = blocks.get(blocks.size() - 1);
+			if (lastBlock.getShortName().equals("blocksRail")){
+				blocks.remove(blocks.size() - 1);
+			}
+			
+			block.setPos(getNextBlockPos());
+			
+			blocks.add(block);
+			
+			Point point = getNextBlockPos(Rail.DEFAULT_HEIGHT);
+			Rail rail = new Rail(false, true);
+			rail.setPos(point);
+			
+			blocks.add(rail);
+		} else {
+			nonRailBlocks.add(block);
 		}
-		
-		block.setPos(getNextBlockPos());
-		
-		blocks.add(block);
-		
-		Point point = getNextBlockPos(Rail.DEFAULT_HEIGHT);
-		Rail rail = new Rail(false, true);
-		rail.setPos(point);
-		
-		blocks.add(rail);
 	}
 	
 	public void insertBlock(Block lastBlock, Block newBlock){

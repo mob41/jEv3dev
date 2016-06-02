@@ -1,5 +1,7 @@
 package org.ev3dev.software.jEv3Dev.UI;
 
+import java.lang.reflect.Type;
+
 public class Parameter<T> implements ParameterInterface {
 	
 	public static final int PARAMETER_WIDTH = 30;

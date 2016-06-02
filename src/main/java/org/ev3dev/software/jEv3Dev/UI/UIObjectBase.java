@@ -11,6 +11,7 @@ public abstract class UIObjectBase implements UIObject{
 	
 	private boolean releasedFromMouse = false;
 	
+	//For debug purpose
 	private boolean connectedToRail = false;
 	
 	private int xleft;

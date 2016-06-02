@@ -18,7 +18,7 @@ import org.ev3dev.software.jEv3Dev.actions.Action;
 
 public abstract class Block  extends UIObjectBase{
 	
-	private List<Parameter> parameters = new ArrayList<Parameter>(50);
+	private List<Parameter<?>> parameters = new ArrayList<Parameter<?>>(50);
 	
 	public static final int DEFAULT_WIDTH = 180;
 	
@@ -52,7 +52,7 @@ public abstract class Block  extends UIObjectBase{
 		
 		if (getParameters().length != 0){
 			width = 0;
-			for (Parameter pm : getParameters()){
+			for (Parameter<?> pm : getParameters()){
 				width += Parameter.PARAMETERS_SPACE + Parameter.PARAMETER_WIDTH;
 			}
 			
@@ -74,14 +74,14 @@ public abstract class Block  extends UIObjectBase{
 		
 		if (getParameters().length != 0){
 			width = 0;
-			for (Parameter pm : getParameters()){
+			for (Parameter<?> pm : getParameters()){
 				width += Parameter.PARAMETERS_SPACE + Parameter.PARAMETER_WIDTH;
 			}
 			
 			width += Parameter.PARAMETERS_SPACE;
 		}
 		
-		parameters = new ArrayList<Parameter>(50);
+		parameters = new ArrayList<Parameter<?>>(50);
 		
 		setWidth(width);
 	}
@@ -162,13 +162,13 @@ public abstract class Block  extends UIObjectBase{
 		return false;
 	}
 	
-	public final void addParameter(Parameter pm){
+	public final void addParameter(Parameter<?> pm){
 		parameters.add(pm);
 		
 		int width = DEFAULT_WIDTH;
 		if (getParameters().length != 0){
 			width = 0;
-			for (Parameter parameter : getParameters()){
+			for (int i = 0; i < parameters.size(); i++){
 				width += Parameter.PARAMETERS_SPACE + Parameter.PARAMETER_WIDTH;
 			}
 			
@@ -182,20 +182,21 @@ public abstract class Block  extends UIObjectBase{
 		parameters.remove(parameter);
 	}
 	
-	public final Parameter getParameter(int parameter){
+	public final Parameter<?> getParameter(int parameter){
 		return parameters.get(parameter);
 	}
 	
 	public final Parameter[] getParameters(){
 		Parameter[] pms = new Parameter[parameters.size()];
 		for (int i = 0; i < parameters.size(); i++){
-			pms[i] = (Parameter) parameters.get(i);
+			pms[i] = (Parameter<?>) parameters.get(i);
 		}
 		return pms;
 	}
 	
 	public final void setParameterValue(int parameter, Object value){
-		parameters.get(parameter).setValue(value);
+		Parameter pm = parameters.get(parameter);
+		pm.setValue(value);
 	}
 	
 //Default draw
@@ -232,6 +233,12 @@ public abstract class Block  extends UIObjectBase{
 		
 		if (!isReleasedFromMouse()){
 			alpha = 127;
+			
+			if (mousePosition == null){
+				//Skip this render
+				return;
+			}
+			
 			x = mousePosition.x;
 			y = mousePosition.y;
 		}

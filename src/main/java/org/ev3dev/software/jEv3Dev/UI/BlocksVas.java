@@ -50,6 +50,8 @@ public class BlocksVas extends JPanel {
 		
 		
 		Rail rail = new Rail();
+		rail.setConnectedToRail(true);
+		rail.setReleasedFromMouse(true);
 		rail.setPos(new Point(80, currHeight / 2));
 		loader.blocks.add(rail);
 		
@@ -58,6 +60,8 @@ public class BlocksVas extends JPanel {
 			rail = new Rail(false, true);
 			point = loader.getNextBlockPos(Rail.DEFAULT_HEIGHT);
 			rail.setPos(point);
+			rail.setConnectedToRail(true);
+			rail.setReleasedFromMouse(true);
 			loader.blocks.add(rail);
 		}
 	}
@@ -83,7 +87,8 @@ public class BlocksVas extends JPanel {
 			Block block = loader.blocks.get(i);
 			
 			if (!block.isReleasedFromMouse()){
-				//continue;
+				System.err.println("!!BUG: Normal Blocks List should not contain NON RELEASED MOUSE FIELDS: " + block.getName());
+				//TODO Throw error. This should not be happen in the normal blocks list.
 			}
 			
 			Point point = new Point(80, currHeight / 2);
@@ -92,6 +97,17 @@ public class BlocksVas extends JPanel {
 			}
 			
 			block.setPos(point);
+			block.drawThis(g, this.getMousePosition());
+		}
+		
+		for (int i = 0; i < loader.nonRailBlocks.size(); i++){
+			Block block = loader.nonRailBlocks.get(i);
+			
+			if (block.isReleasedFromMouse()){
+				System.err.println("!!BUG: NON rail Blocks List should not contain RELEASED MOUSE FIELDS: " + block.getName());
+				//TODO Throw error. This should not be happen in the non-rail blocks list.
+			}
+			
 			block.drawThis(g, this.getMousePosition());
 		}
 	}
