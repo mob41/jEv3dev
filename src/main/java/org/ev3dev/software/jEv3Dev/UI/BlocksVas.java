@@ -100,8 +100,17 @@ public class BlocksVas extends JPanel {
 			block.drawThis(g, this.getMousePosition());
 		}
 		
-		for (int i = 0; i < loader.nonRailBlocks.size(); i++){
+		int size = loader.nonRailBlocks.size();
+		for (int i = 0; i < size; i++){
 			Block block = loader.nonRailBlocks.get(i);
+			
+			if (loader.nonRailBlocks.size() > 1){
+				loader.nonRailBlocks.remove(block);
+				
+				size = loader.nonRailBlocks.size();
+				i--;
+				continue;
+			}
 			
 			if (block.isReleasedFromMouse()){
 				System.err.println("!!BUG: NON rail Blocks List should not contain RELEASED MOUSE FIELDS: " + block.getName());
