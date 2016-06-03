@@ -127,7 +127,6 @@ public class ProjectPane extends JDesktopPane {
 					System.err.println("No block is there!");
 				}
 				
-				blocksVas.repaint();
 			}
 		});
 		popupMenu.add(mntmRemove);
@@ -156,7 +155,6 @@ public class ProjectPane extends JDesktopPane {
 					blocksLoader.blocks.remove(block);
 				}
 				
-				blocksVas.repaint();
 			}
 		});
 		popupMenu.add(mntmMakeRailShorter);
@@ -220,7 +218,8 @@ public class ProjectPane extends JDesktopPane {
 				ui.lblXY.setText("X: " + arg0.getPoint().x + " Y: " + arg0.getPoint().y);
 				Block block = blocksLoader.onMouseTouchCheckAll(arg0.getPoint());
 				
-				blocksVas.repaint();
+				// Disable repaint via mouse motion, give this to thread
+				//blocksVas.repaint();
 				
 				//TODO Do selected via MousePressed and render the rectangle bound via paintComponent in blocksVas
 			}
@@ -271,8 +270,6 @@ public class ProjectPane extends JDesktopPane {
 							blocksLoader.blocks.remove(block);
 							System.out.println("!!Removed block");
 						}
-						System.out.println("Repainting");
-						blocksVas.repaint();
 					}
 					oldDraggingBlock = null;
 					return;
@@ -284,7 +281,6 @@ public class ProjectPane extends JDesktopPane {
 				} else {
 					oldDraggingBlock = null;
 				}
-				blocksVas.repaint();
 			}
 		});
 		

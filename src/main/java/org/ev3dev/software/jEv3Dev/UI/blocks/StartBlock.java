@@ -41,9 +41,22 @@ public class StartBlock extends Block {
 		g2.fillArc(x, y, DEFAULT_ARC_WIDTH, DEFAULT_HEIGHT, 90, 180);
 		
 		g2.setColor(Color.ORANGE);
-		g2.fillArc(x, y, DEFAULT_ARC_WIDTH, 10 * 2, 90, 90);
+		g2.fillArc(x + DEFAULT_ARC_WIDTH / 4, y, DEFAULT_ARC_WIDTH / 2, 10 * 2, 90, 90);
 		g2.fillRect(x + DEFAULT_ARC_WIDTH / 2, y, DEFAULT_WIDTH - DEFAULT_ARC_WIDTH / 2, 10);
 		
+		g2.setColor(Color.GREEN);
+		
+		int[] xPoints = {
+				x + DEFAULT_WIDTH / 3 * 2,
+				x + DEFAULT_WIDTH / 3,
+				x + DEFAULT_WIDTH / 3
+		};
+		int[] yPoints = {
+				y + DEFAULT_HEIGHT / 2,
+				y + DEFAULT_HEIGHT / 3,
+				y + DEFAULT_HEIGHT / 3 * 2,
+		};
+		g2.fillPolygon(xPoints, yPoints, 3);
 	}
 	
 	@Override

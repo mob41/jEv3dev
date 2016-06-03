@@ -30,6 +30,8 @@ public class BlocksVas extends JPanel {
 	private BlocksLoader loader;
 	
 	private BufferedImage railImage;
+	
+	private RenderThread renderThread;
 
 	/**
 	 * Create the panel.
@@ -50,6 +52,9 @@ public class BlocksVas extends JPanel {
 		startBlock.setConnectedToRail(true);
 		startBlock.setReleasedFromMouse(true);
 		loader.blocks.add(startBlock);
+		
+		renderThread = new RenderThread(this);
+		renderThread.start();
 	}
 
 	/**
