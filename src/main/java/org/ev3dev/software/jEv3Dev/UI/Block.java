@@ -234,7 +234,7 @@ public abstract class Block  extends UIObjectBase{
 		
 		int alpha = 255;
 		
-		if (!isReleasedFromMouse()){
+		if (!isReleasedFromMouse() || !isConnectedToRail()){
 			alpha = 127;
 			
 			if (mousePosition == null){
