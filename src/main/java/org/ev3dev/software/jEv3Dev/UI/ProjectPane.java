@@ -210,13 +210,16 @@ public class ProjectPane extends JDesktopPane {
 				System.out.println("Not released mouse: " + notRldBlock.getName());
 				
 				if (notRldBlock != null){
-					Block blockAtPos = blocksLoader.getBlockAtPosition(blocksVas.getMousePosition());
+					Point pos = blocksVas.getMousePosition();
+					Block blockAtPos = blocksLoader.getBlockAtPosition(pos);
 					
 					if (blockAtPos == null){
 						System.err.println(">> Nullptr. No block there. Place it to workspace as well.");
 						notRldBlock.setConnectedToRail(false);
 						notRldBlock.setReleasedFromMouse(true);
-						notRldBlock.setPos(blocksVas.getMousePosition());
+						int cx = pos.x - notRldBlock.getWidth() / 2;
+						int cy = pos.y - notRldBlock.getHeight() / 2;
+						notRldBlock.setPos(new Point(cx, cy));
 					} else {
 						//TODO Process nullptr
 						System.err.println("Not implemented");

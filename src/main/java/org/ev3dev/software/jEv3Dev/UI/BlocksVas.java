@@ -117,8 +117,8 @@ public class BlocksVas extends JPanel {
 		for (int i = 0; i < size; i++){
 			Block block = loader.nonRailBlocks.get(i);
 			
-			if (loader.nonRailBlocks.size() > 1){
-				loader.nonRailBlocks.remove(block);
+			if (loader.getCountOfNotReleasedMouse() > 1){
+				loader.nonRailBlocks.remove(loader.getBlockOfNotReleasedMouse());
 				
 				size = loader.nonRailBlocks.size();
 				i--;
