@@ -36,6 +36,29 @@ public class BlocksLoader {
 	}
 	
 	/**
+	 * Loop through the non-rail blocks, and count the blocks that is marked by the UI that is not released mouse object.
+	 * @return Count
+	 */
+	public int getCountOfNotReleasedMouse(){
+		int c = 0;
+		for (Block block : nonRailBlocks){
+			if (!block.isReleasedFromMouse()){
+				c++;
+			}
+		}
+		return c;
+	}
+	
+	public Block getBlockOfNotReleasedMouse(){
+		for (Block block : nonRailBlocks){
+			if (!block.isReleasedFromMouse()){
+				return block;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * Adds a block that is <b>not connected to the rail</b> to the <code>nonRailBlocks</code> list.<br>
 	 * <br>
 	 * It supposes you that you will <b>change the position</b> of the UI programmatically <b>after this function.</b>

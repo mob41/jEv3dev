@@ -201,6 +201,29 @@ public class ProjectPane extends JDesktopPane {
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
+				Block notRldBlock = blocksLoader.getBlockOfNotReleasedMouse();
+				
+				if (notRldBlock == null){
+					System.err.println("No block there");
+					return;
+				}
+				System.out.println("Not released mouse: " + notRldBlock.getName());
+				
+				if (notRldBlock != null){
+					Block blockAtPos = blocksLoader.getBlockAtPosition(getMousePosition());
+					
+					if (blockAtPos == null){
+						System.err.println(">> Nullptr. No block there. Place it to workspace as well.");
+						notRldBlock.setConnectedToRail(false);
+						notRldBlock.setReleasedFromMouse(true);
+						notRldBlock.setPos(blocksVas.getMousePosition());
+					} else {
+						//TODO Process nullptr
+						System.err.println("Not implemented");
+					}
+				}
+				
+				/*
 				Block block = blocksLoader.onMousePressCheckAll(getMousePosition());
 				
 				if (block != null && e.getButton() == -5){
@@ -209,6 +232,7 @@ public class ProjectPane extends JDesktopPane {
 					info.setVisible(true);
 					return;
 				}
+				*/
 			}
 		});
 		blocksVas.addMouseMotionListener(new MouseMotionAdapter() {

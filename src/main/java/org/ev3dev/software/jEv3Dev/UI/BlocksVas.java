@@ -84,7 +84,8 @@ public class BlocksVas extends JPanel {
 		for (int i = 0; i < loader.blocks.size(); i++){
 			Block block = loader.blocks.get(i);
 			
-			if (!block.isReleasedFromMouse()){
+			
+			if (!block.isReleasedFromMouse() && !block.isConnectedToRail()){
 				Toolkit.getDefaultToolkit().beep();
 				System.err.println("!!BUG: Normal Blocks List should not contain NOT RELEASED MOUSE FIELDS: " + block.getName());
 				loader.blocks.remove(block);
@@ -124,7 +125,7 @@ public class BlocksVas extends JPanel {
 				continue;
 			}
 			
-			if (block.isReleasedFromMouse()){
+			if (block.isReleasedFromMouse() && block.isConnectedToRail()){
 				Toolkit.getDefaultToolkit().beep();
 				System.err.println("!!BUG: NON rail Blocks List should not contain RELEASED MOUSE FIELDS: " + block.getName());
 				loader.nonRailBlocks.remove(block);
