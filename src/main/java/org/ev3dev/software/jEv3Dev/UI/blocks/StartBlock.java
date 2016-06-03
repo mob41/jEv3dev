@@ -17,6 +17,8 @@ public class StartBlock extends Block {
 	
 	public StartBlock(){
 		super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		setConnectedToRail(true);
+		setReleasedFromMouse(true);
 	}
 	
 	@Override

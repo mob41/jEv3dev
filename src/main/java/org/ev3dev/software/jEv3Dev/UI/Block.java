@@ -24,31 +24,41 @@ public abstract class Block  extends UIObjectBase{
 	
 	public static final int DEFAULT_HEIGHT = 90;
 	
-	public static final BufferedImage DEFAULT_ICON = getDefaultImageFromClass();
+	private final BlockDescription blockDesc;
 	
-	private Graphics g;
-	
-	private static BufferedImage getDefaultImageFromClass(){
-		try {
-			return ImageIO.read(
-					Block.class.getResourceAsStream(
-							"/org/ev3dev/software/jEv3Dev/UI/resources/block.fw.png"
-							));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
+	/**
+	 * Creates a UI Block instance, with the "Untitled" description
+	 * @param width Width of the block
+	 * @param height Height of the block
+	 */
+	public Block(int width, int height){
+		super(width, height);
+		
+		this.blockDesc = new BlockDescription();
+		
+		if (getParameters().length != 0){
+			width = 0;
+			for (Parameter<?> pm : getParameters()){
+				width += Parameter.PARAMETERS_SPACE + Parameter.PARAMETER_WIDTH;
+			}
+			
+			width += Parameter.PARAMETERS_SPACE;
 		}
+		
+		setWidth(width);
 	}
+	
 	
 	/**
 	 * Creates a UI Block instance
-	 * @param x x location of block
-	 * @param y y location of block
 	 * @param width Width of block
 	 * @param height Height of block
+	 * @param blockDesc Block Description
 	 */
-	public Block(int width, int height) {
+	public Block(int width, int height, BlockDescription blockDesc) {
 		super(width, height);
+		
+		this.blockDesc = blockDesc;
 		
 		if (getParameters().length != 0){
 			width = 0;
@@ -63,12 +73,12 @@ public abstract class Block  extends UIObjectBase{
 	}
 	
 	/**
-	 * Creates a UI Block instance
-	 * @param x x location of block
-	 * @param y y location of block
+	 * Creates a basic UI Block instance
 	 */
 	public Block() {
 		super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		
+		this.blockDesc = new BlockDescription();
 		
 		int width = DEFAULT_WIDTH;
 		
@@ -93,7 +103,7 @@ public abstract class Block  extends UIObjectBase{
 	 * @return Short name no-spaces
 	 */
 	public String getShortName(){
-		return "UBK" + this.hashCode();
+		return blockDesc.getShortName();
 	}
 	
 	/**
@@ -101,7 +111,7 @@ public abstract class Block  extends UIObjectBase{
 	 * @return The name of this block
 	 */
 	public String getName(){
-		return "UntitledBk-" + this.hashCode();
+		return blockDesc.getName();
 	}
 	
 	/**
@@ -109,7 +119,7 @@ public abstract class Block  extends UIObjectBase{
 	 * @return The author of this block
 	 */
 	public String getAuthor(){
-		return "Unknown";
+		return blockDesc.getAuthor();
 	}
 	
 	/**
@@ -117,7 +127,7 @@ public abstract class Block  extends UIObjectBase{
 	 * @return The version of this block
 	 */
 	public String getVersion(){
-		return "Unknown";
+		return blockDesc.getVersion();
 	}
 	
 	/**
@@ -125,7 +135,7 @@ public abstract class Block  extends UIObjectBase{
 	 * @return The description of this block
 	 */
 	public String getDescription(){
-		return "A untitled block";
+		return blockDesc.getDescription();
 	}
 	
 	/**
@@ -133,7 +143,7 @@ public abstract class Block  extends UIObjectBase{
 	 * @return <code>BufferedImage</code> of the icon
 	 */
 	public BufferedImage getIcon(){
-		return DEFAULT_ICON;
+		return blockDesc.getIcon();
 	}
 	
 //Main Action
@@ -215,10 +225,6 @@ public abstract class Block  extends UIObjectBase{
 	 * @param color
 	 */
 	public void drawThis(Graphics g, Point mousePosition, Color color){
-		if (this.g == null){
-			this.g = g;
-		}
-		
 		Graphics2D g2 = (Graphics2D) g;
 		
 		int x = getLeftX();

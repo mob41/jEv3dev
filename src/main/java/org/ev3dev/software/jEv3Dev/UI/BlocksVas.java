@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.ev3dev.software.jEv3Dev.UI.blocks.Connector;
 import org.ev3dev.software.jEv3Dev.UI.blocks.StartBlock;
 
 public class BlocksVas extends JPanel {
@@ -53,6 +55,11 @@ public class BlocksVas extends JPanel {
 		startBlock.setReleasedFromMouse(true);
 		loader.blocks.add(startBlock);
 		
+		Connector connector = new Connector();
+		connector.setPos(loader.getNextBlockPos());
+		connector.setDirection(Connector.RIGHT);
+		loader.blocks.add(connector);
+		
 		renderThread = new RenderThread(this);
 		renderThread.start();
 	}
@@ -78,6 +85,7 @@ public class BlocksVas extends JPanel {
 			Block block = loader.blocks.get(i);
 			
 			if (!block.isReleasedFromMouse()){
+				Toolkit.getDefaultToolkit().beep();
 				System.err.println("!!BUG: Normal Blocks List should not contain NOT RELEASED MOUSE FIELDS: " + block.getName());
 				loader.blocks.remove(block);
 				JOptionPane.showMessageDialog(uiframe, 
@@ -117,6 +125,7 @@ public class BlocksVas extends JPanel {
 			}
 			
 			if (block.isReleasedFromMouse()){
+				Toolkit.getDefaultToolkit().beep();
 				System.err.println("!!BUG: NON rail Blocks List should not contain RELEASED MOUSE FIELDS: " + block.getName());
 				loader.nonRailBlocks.remove(block);
 				JOptionPane.showMessageDialog(uiframe, 
