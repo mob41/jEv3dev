@@ -235,21 +235,17 @@ public abstract class Block  extends UIObjectBase{
 		int alpha = 255;
 		
 		if (!isReleasedFromMouse()){
-			System.err.println("Not released from mouse. Marked. 127");
 			alpha = 127;
 			
 			if (mousePosition == null){
-				System.err.println("Rendering is skipped.");
 				//Skip this render
 				return;
 			}
-			x = mousePosition.x;
-			y = mousePosition.y;
+			x = mousePosition.x - getWidth() / 2;
+			y = mousePosition.y - getHeight() / 2;
 		} else if (!isConnectedToRail()){
-			System.err.println("Not connected to rail so alpha is 127 ");
 			alpha = 127;
 		}
-		System.err.println("Rendering...: Alpha: " + alpha + " X: " + x + " Y: " + y);
 		
 		g2.setColor(setAlpha(color, alpha));
 		g2.fillRect(x, y, width, 10);

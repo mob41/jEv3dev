@@ -210,7 +210,7 @@ public class ProjectPane extends JDesktopPane {
 				System.out.println("Not released mouse: " + notRldBlock.getName());
 				
 				if (notRldBlock != null){
-					Block blockAtPos = blocksLoader.getBlockAtPosition(getMousePosition());
+					Block blockAtPos = blocksLoader.getBlockAtPosition(blocksVas.getMousePosition());
 					
 					if (blockAtPos == null){
 						System.err.println(">> Nullptr. No block there. Place it to workspace as well.");
